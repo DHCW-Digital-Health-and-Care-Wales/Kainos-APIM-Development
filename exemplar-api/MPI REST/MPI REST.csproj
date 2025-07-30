@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MPI_REST</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\jo126569\.nuget\packages\hl7.fhir.specification.data.r4\5.12.1\contentFiles\any\any\specification.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Firely.Fhir.Packages" Version="4.9.1" />
+    <PackageReference Include="Hl7.Fhir.Conformance" Version="5.12.1" />
+    <PackageReference Include="Hl7.Fhir.ElementModel" Version="4.3.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="5.12.1" />
+    <PackageReference Include="Hl7.Fhir.Specification.Data.R4" Version="5.12.1" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="5.12.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+  </ItemGroup>
+
+</Project>
