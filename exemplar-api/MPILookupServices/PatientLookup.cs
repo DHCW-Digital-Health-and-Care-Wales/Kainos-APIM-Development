@@ -1,15 +1,22 @@
 ﻿using Hl7.Fhir.Model;
+using LookupServices;
 
-namespace MPI_REST
+namespace MPILookupServices
 {
-    public static class Utility
+    public class PatientLookup : IPatientLookup
     {
-
-        public static async Task<Patient?> LookupPatientOnNHSNumber(string nhsNumber)
+        public async System.Threading.Tasks.Task<Patient?> ByFirstnameSurnameDOB(string firstName, string surname, string dob)
         {
             await System.Threading.Tasks.Task.Yield();
 
-            
+            throw new NotImplementedException();
+        }
+
+        public async System.Threading.Tasks.Task<Patient?> ByNHSNumber(string nhsNumber)
+        {
+            await System.Threading.Tasks.Task.Yield();
+
+
             if (nhsNumber == "8888842799") // Test record
             {
                 Patient patient = new Patient()
@@ -63,7 +70,7 @@ namespace MPI_REST
 
         }
 
-        public static bool IsValidNHSNumber(string value)
+        private static bool IsValidNHSNumber(string value)
         {
 
             if (value.Length != 10)

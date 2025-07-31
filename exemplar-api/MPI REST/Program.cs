@@ -1,6 +1,4 @@
-using MPI_REST;
-using Hl7.Fhir.Rest;
-using Microsoft.AspNetCore.Mvc;
+using DemographicsREST;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
+builder.Services.AddSingleton(new MPILookupServices.PatientLookup());
 
 var app = builder.Build();
 
@@ -23,61 +22,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/patient/{nhsNumber}",
-    async (string nhsNumber, [FromHeader] string? ApiKey) =>
-{
-
-    if (string.IsNullOrEmpty(ApiKey))
-    {
-        return Results.Unauthorized();
-    }
-
-    if (string.IsNullOrEmpty(nhsNumber))
-    {
-        return Results.StatusCode(500);
-    }
-
-    // Abstract the lookup of the patient
-    Hl7.Fhir.Model.Patient? patient;
-    try
-    {
-         patient = await Utility.LookupPatientOnNHSNumber(nhsNumber);
-    }
-    catch (TimeoutException)
-    {
-        return Results.StatusCode(408);
-    }
-    catch(InvalidDataException)
-    {
-        return Results.BadRequest("Invalid NHS Number");
-    }
-    catch (Exception ex)
-    {
-        // Log the exception (not implemented here)
-        return Results.StatusCode(500);
-    }
-
-    if (patient is not null)
-    {
-        return TypedResults.Ok(patient);
-    }
-    else
-    {
-        return Results.NotFound("Patient not found");
-    }
-
-})
-.Produces<Hl7.Fhir.Model.Patient>(StatusCodes.Status200OK)
-.Produces<string>(StatusCodes.Status400BadRequest)
-.Produces<string>(StatusCodes.Status401Unauthorized)
-.Produces<string>(StatusCodes.Status403Forbidden)
-.Produces(StatusCodes.Status404NotFound)
-.Produces<string>(StatusCodes.Status408RequestTimeout)
-.Produces<string>(StatusCodes.Status500InternalServerError)
-.WithName("getPatientById")
-.WithDescription("Returns a FHIR compliant Patient resource. More details can be found in FHIR documentation at https://www.hl7.org/fhir/patient.html")
-.WithTags("Patient")
-.WithOpenApi();
+Routes.Register(app);
 
 app.Run();
 
