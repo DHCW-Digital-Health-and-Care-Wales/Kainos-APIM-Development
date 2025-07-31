@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemographicsREST", "MPI RES
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7344E226-7757-4A64-B2AC-D7B0FC941A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LookupServices", "LookupServices\LookupServices.csproj", "{320E1E0C-3ABC-4CF2-AB13-B512A41AE242}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPILookupServices", "MPILookupServices\MPILookupServices.csproj", "{A08D4E86-CFB1-414B-B575-E79E4CFFF4DE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{7344E226-7757-4A64-B2AC-D7B0FC941A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7344E226-7757-4A64-B2AC-D7B0FC941A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7344E226-7757-4A64-B2AC-D7B0FC941A43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{320E1E0C-3ABC-4CF2-AB13-B512A41AE242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{320E1E0C-3ABC-4CF2-AB13-B512A41AE242}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{320E1E0C-3ABC-4CF2-AB13-B512A41AE242}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{320E1E0C-3ABC-4CF2-AB13-B512A41AE242}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A08D4E86-CFB1-414B-B575-E79E4CFFF4DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A08D4E86-CFB1-414B-B575-E79E4CFFF4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A08D4E86-CFB1-414B-B575-E79E4CFFF4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A08D4E86-CFB1-414B-B575-E79E4CFFF4DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
