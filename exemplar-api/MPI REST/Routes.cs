@@ -11,7 +11,7 @@ namespace DemographicsREST
                 return;
 
             app.MapGet("/patient/{nhsNumber}",
-                async (IPatientLookup lookup, string nhsNumber, [FromHeader] string? ApiKey) =>
+                async ([FromServices]IPatientLookup lookup, string nhsNumber, [FromHeader] string? ApiKey) =>
                 {
 
                     if (string.IsNullOrEmpty(ApiKey))
