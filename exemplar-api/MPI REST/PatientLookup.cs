@@ -5,17 +5,27 @@ namespace MPILookupServices
 {
     public class PatientLookup : IPatientLookup
     {
+
+        private string _hostname;
+        private int _port;
+
+        public PatientLookup(string hostname, int port)
+        {
+            _hostname = hostname;
+            _port = port;
+        }
+
         public async System.Threading.Tasks.Task<Patient?> ByFirstnameSurnameDOB(string firstName, string surname, string dob)
         {
-            await System.Threading.Tasks.Task.Yield();
 
+            await System.Threading.Tasks.Task.Yield();
             throw new NotImplementedException();
         }
 
         public async System.Threading.Tasks.Task<Patient?> ByNHSNumber(string nhsNumber)
         {
-            await System.Threading.Tasks.Task.Yield();
 
+            await System.Threading.Tasks.Task.Yield();
 
             if (nhsNumber == "8888842799") // Test record
             {
