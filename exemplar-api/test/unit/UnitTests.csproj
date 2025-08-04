@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MPI REST\DemographicsREST.csproj" />
+    <ProjectReference Include="..\..\src\PatientDemographicsAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
