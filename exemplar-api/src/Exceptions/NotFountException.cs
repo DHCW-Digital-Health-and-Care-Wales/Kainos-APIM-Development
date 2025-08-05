@@ -1,5 +1,6 @@
 namespace DHCW.PD.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class NotFoundException : Exception
 {
     private const string ExceptionMessage = "Not found";

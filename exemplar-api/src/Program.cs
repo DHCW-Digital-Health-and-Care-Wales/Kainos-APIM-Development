@@ -17,3 +17,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// TODO: remove after test containers is added
+public partial class Program { }

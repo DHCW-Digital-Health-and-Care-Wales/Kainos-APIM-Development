@@ -2,6 +2,7 @@
 
 namespace DHCW.PD.Services;
 
+[ExcludeFromCodeCoverage]
 public interface IPatientService
 {
     public Patient GetByNHSNumber(string nhsNumber);

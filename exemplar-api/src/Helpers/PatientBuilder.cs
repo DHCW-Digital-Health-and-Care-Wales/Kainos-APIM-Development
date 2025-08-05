@@ -2,6 +2,7 @@ using Hl7.Fhir.Model;
 
 namespace DHCW.PD.Helpers;
 
+[ExcludeFromCodeCoverage]
 public class PatientBuilder
 {
     private string family = "Holmes";
