@@ -22,8 +22,8 @@ public class MpiPatientService : IPatientService
         _nhsIdValidator = nhsIdValidator;
         _personBuilder = personBuilder;
 
-        _hostname = configuration["MPI:Hostname"];
-        _port = int.Parse(configuration["MPI:Port"]);
+        _hostname = configuration["MPI:Hostname"] ?? "localhost";
+        _port = int.Parse(configuration["MPI:Port"] ?? "23001");
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
