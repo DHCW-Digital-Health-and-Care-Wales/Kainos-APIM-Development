@@ -16,13 +16,13 @@ public class MpiPatientService : IPatientService
 
     public MpiPatientService(
         IConfiguration configuration,
-        NhsIdValidator nhsIdValidator,
-        PersonBuilder personBuilder,
+        INhsIdValidator nhsIdValidator,
+        PatientBuilder personBuilder,
         ILogger<MpiPatientService> logger
     )
     {
         _nhsIdValidator = nhsIdValidator;
-        _personBuilder = personBuilder;
+        _patientBuilder = personBuilder;
         _logger = logger;
 
         _hostname = configuration["MPI:Hostname"] ?? "localhost";

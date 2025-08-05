@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
 builder.Services.AddSingleton<NhsIdValidator>();
-builder.Services.AddSingleton<PersonBuilder>();
+builder.Services.AddSingleton<PatientBuilder>();
 
 builder.Services.AddEndpointsApiExplorer();
 
