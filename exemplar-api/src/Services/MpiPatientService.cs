@@ -10,13 +10,20 @@ public class MpiPatientService : IPatientService
     private IValidator<string, bool> _nhsIdValidator;
     private PersonBuilder _personBuilder;
 
+    private string _hostname;
+    private int _port;
+
     public MpiPatientService(
+        IConfiguration configuration,
         NhsIdValidator nhsIdValidator,
         PersonBuilder personBuilder
     )
     {
         _nhsIdValidator = nhsIdValidator;
         _personBuilder = personBuilder;
+
+        _hostname = configuration["MPI:Hostname"];
+        _port = int.Parse(configuration["MPI:Port"]);
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
