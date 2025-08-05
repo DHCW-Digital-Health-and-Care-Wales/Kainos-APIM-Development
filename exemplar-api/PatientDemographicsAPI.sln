@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemographicsREST", "MPI REST\DemographicsREST.csproj", "{6568AA64-91A2-4470-8590-257DA44E89CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientDemographicsAPI", "src\PatientDemographicsAPI.csproj", "{6568AA64-91A2-4470-8590-257DA44E89CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7344E226-7757-4A64-B2AC-D7B0FC941A43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "test\unit\UnitTests.csproj", "{7344E226-7757-4A64-B2AC-D7B0FC941A43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
