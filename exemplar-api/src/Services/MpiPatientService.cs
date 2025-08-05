@@ -7,12 +7,12 @@ namespace DHCW.PD.Services;
 
 public class MpiPatientService : IPatientService
 {
-    private IValidator<string, bool> _nhsIdValidator;
-    private PatientBuilder _patientBuilder;
-	private ILogger<MpiPatientService> _logger;
+    private readonly INhsIdValidator _nhsIdValidator;
+    private readonly PatientBuilder _patientBuilder;
+	private readonly ILogger<MpiPatientService> _logger;
 
     public MpiPatientService(
-        NhsIdValidator nhsIdValidator,
+        INhsIdValidator nhsIdValidator,
         PatientBuilder patientBuilder,
 		ILogger<MpiPatientService> logger
     )
@@ -36,6 +36,7 @@ public class MpiPatientService : IPatientService
             "3333342799" => throw new ForbiddenException(),
             "4444442799" => throw new DHCW.PD.Exceptions.TimeoutException(),
             "5555542799" => throw new Exception(),
+			"8888842799" => _patientBuilder.Build(),
             _ => ValidateIdAndReturnPatient(nhsNumber)
         };
     }
@@ -45,6 +46,8 @@ public class MpiPatientService : IPatientService
         if (!_nhsIdValidator.IsValid(id))
             throw new InvalidDataException();
 
-        return _patientBuilder.Build();
+        return _patientBuilder
+			.Id(id)
+			.Build();
     }
 }

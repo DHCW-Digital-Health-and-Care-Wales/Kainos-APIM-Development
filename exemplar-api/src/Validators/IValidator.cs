@@ -1,6 +1,6 @@
 namespace DHCW.PD.Validators;
+using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
 public interface IValidator<DataType, ReturnType>
 {
     public ReturnType IsValid(DataType data);

@@ -1,8 +1,8 @@
 ﻿using Hl7.Fhir.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DHCW.PD.Services;
 
-[ExcludeFromCodeCoverage]
 public interface IPatientService
 {
     public Patient GetByNHSNumber(string nhsNumber);
