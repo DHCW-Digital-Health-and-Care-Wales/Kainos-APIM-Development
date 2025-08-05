@@ -50,7 +50,6 @@ public class MpiPatientServiceTests
 
         Assert.NotNull(result);
         Assert.Equal(validId, result.Id);
-		Assert.Equal(validId, result.Id);
     }
 
     [Fact]
