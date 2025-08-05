@@ -7,16 +7,19 @@ namespace DHCW.PD.Services;
 
 public class MpiPatientService : IPatientService
 {
-    private IValidator<string, bool> _nhsIdValidator;
-    private PersonBuilder _personBuilder;
+    private readonly INhsIdValidator _nhsIdValidator;
+    private readonly PatientBuilder _patientBuilder;
+	private readonly ILogger<MpiPatientService> _logger;
 
     public MpiPatientService(
-        NhsIdValidator nhsIdValidator,
-        PersonBuilder personBuilder
+        INhsIdValidator nhsIdValidator,
+        PatientBuilder patientBuilder,
+		ILogger<MpiPatientService> logger
     )
     {
         _nhsIdValidator = nhsIdValidator;
-        _personBuilder = personBuilder;
+        _patientBuilder = patientBuilder;
+		_logger = logger;
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
@@ -26,7 +29,6 @@ public class MpiPatientService : IPatientService
 
     public Patient GetByNHSNumber(string nhsNumber)
     {
-
         return nhsNumber switch
         {
             "1111142799" => throw new BadRequestException(),
@@ -34,6 +36,7 @@ public class MpiPatientService : IPatientService
             "3333342799" => throw new ForbiddenException(),
             "4444442799" => throw new DHCW.PD.Exceptions.TimeoutException(),
             "5555542799" => throw new Exception(),
+			"8888842799" => _patientBuilder.Build(),
             _ => ValidateIdAndReturnPatient(nhsNumber)
         };
     }
@@ -41,10 +44,10 @@ public class MpiPatientService : IPatientService
     private Patient ValidateIdAndReturnPatient(string id)
     {
         if (!_nhsIdValidator.IsValid(id))
-        {
             throw new InvalidDataException();
-        }
 
-        return _personBuilder.Build();
+        return _patientBuilder
+			.Id(id)
+			.Build();
     }
 }

@@ -10,8 +10,8 @@ namespace DHCW.PD.Controllers;
 [Route("FHIR/R4/[controller]")]
 public class PatientController : ControllerBase
 {
-    private IPatientService _patientService;
-    private ILogger<PatientController> _logger;
+    private readonly IPatientService _patientService;
+    private readonly ILogger<PatientController> _logger;
 
     public PatientController(
         IPatientService patientService,

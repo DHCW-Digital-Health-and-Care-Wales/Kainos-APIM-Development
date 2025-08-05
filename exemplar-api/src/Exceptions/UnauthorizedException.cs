@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DHCW.PD.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class UnauthorizedException : Exception
 {
     private const string ExceptionMessage = "Unauthorized";
