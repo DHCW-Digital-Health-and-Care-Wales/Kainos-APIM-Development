@@ -8,15 +8,15 @@ namespace DHCW.PD.Services;
 public class MpiPatientService : IPatientService
 {
     private IValidator<string, bool> _nhsIdValidator;
-	private PersonBuilder _personBuilder;
+    private PersonBuilder _personBuilder;
 
     public MpiPatientService(
-		NhsIdValidator nhsIdValidator,
-		PersonBuilder personBuilder
+        NhsIdValidator nhsIdValidator,
+        PersonBuilder personBuilder
     )
     {
         _nhsIdValidator = nhsIdValidator;
-		_personBuilder = personBuilder;
+        _personBuilder = personBuilder;
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
@@ -38,13 +38,13 @@ public class MpiPatientService : IPatientService
         };
     }
 
-	private Patient ValidateIdAndReturnPatient(string id)
-	{
+    private Patient ValidateIdAndReturnPatient(string id)
+    {
         if (!_nhsIdValidator.IsValid(id))
         {
             throw new InvalidDataException();
         }
 
-		return _personBuilder.Build();
-	}
+        return _personBuilder.Build();
+    }
 }

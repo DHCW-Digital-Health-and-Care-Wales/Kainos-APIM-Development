@@ -9,9 +9,9 @@ public class ExceptionMiddleware
     private readonly ILogger<ExceptionMiddleware> _logger;
 
     public ExceptionMiddleware(
-		RequestDelegate next, 
-		ILogger<ExceptionMiddleware> logger
-	)
+        RequestDelegate next,
+        ILogger<ExceptionMiddleware> logger
+    )
     {
         _next = next;
         _logger = logger;
@@ -32,7 +32,7 @@ public class ExceptionMiddleware
 
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-		context.Response.ContentType = "application/fhir+json";
+        context.Response.ContentType = "application/fhir+json";
         context.Response.StatusCode = exception switch
         {
             BadRequestException => StatusCodes.Status400BadRequest,

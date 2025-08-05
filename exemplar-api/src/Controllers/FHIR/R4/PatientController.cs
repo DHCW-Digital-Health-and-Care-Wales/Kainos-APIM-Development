@@ -10,28 +10,28 @@ namespace DHCW.PD.Controllers;
 [Route("FHIR/R4/[controller]")]
 public class PatientController : ControllerBase
 {
-	private IPatientService _patientService;
-	private ILogger<PatientController> _logger;
+    private IPatientService _patientService;
+    private ILogger<PatientController> _logger;
 
-	public PatientController(
+    public PatientController(
         IPatientService patientService,
-		ILogger<PatientController> logger
-	)
-	{
-		_logger = logger;
-		_patientService = patientService;
-	}
+        ILogger<PatientController> logger
+    )
+    {
+        _logger = logger;
+        _patientService = patientService;
+    }
 
     [HttpGet("{id}")]
-	public ActionResult<Patient> GetByNhsId(
-		[FromHeader(Name = "x-api-key")] string apiKey,
-		[FromHeader(Name = "authorization")] string authorization,
-		string id
-	)
+    public ActionResult<Patient> GetByNhsId(
+        [FromHeader(Name = "x-api-key")] string apiKey,
+        [FromHeader(Name = "authorization")] string authorization,
+        string id
+    )
     {
-		ExceptionHelper.ExecuteThrowableIfEmptyOrNull(authorization, () => throw new UnauthorizedException());
-		ExceptionHelper.ExecuteThrowableIfEmptyOrNull(apiKey, () => throw new ForbiddenException());
-		ExceptionHelper.ExecuteThrowableIfEmptyOrNull(id, () => throw new BadRequestException());
+        ExceptionHelper.ExecuteThrowableIfEmptyOrNull(authorization, () => throw new UnauthorizedException());
+        ExceptionHelper.ExecuteThrowableIfEmptyOrNull(apiKey, () => throw new ForbiddenException());
+        ExceptionHelper.ExecuteThrowableIfEmptyOrNull(id, () => throw new BadRequestException());
 
         Patient patient = _patientService.GetByNHSNumber(id);
 
