@@ -4,18 +4,16 @@ using DHCW.PD.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
 builder.Services.AddSingleton<NhsIdValidator>();
-builder.Services.AddSingleton<PersonBuilder>();
+builder.Services.AddSingleton<PatientBuilder>();
 
 var app = builder.Build();
 
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
-
 
 app.Run();
