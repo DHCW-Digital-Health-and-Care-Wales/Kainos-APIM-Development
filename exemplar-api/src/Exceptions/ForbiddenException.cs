@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DHCW.PD.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class ForbiddenException : Exception
 {
     private const string ExceptionMessage = "Forbidden";

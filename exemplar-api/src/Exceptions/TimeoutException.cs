@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DHCW.PD.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class TimeoutException : Exception
 {
     private const string ExceptionMessage = "Timeout";
