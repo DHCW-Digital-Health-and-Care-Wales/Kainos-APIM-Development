@@ -1,0 +1,44 @@
+﻿using DHCW.PD.Controllers;
+using DHCW.PD.Services;
+using Hl7.Fhir.Model;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+
+namespace UnitTests.Controllers.FHIR.R4
+{
+    public class PatientControllerTests
+    {
+
+        private readonly Mock<IPatientService> _patientService;
+        private readonly Mock<ILogger<PatientController>> _logger;
+        private readonly PatientController _controller;
+
+        public PatientControllerTests()
+        {
+            _patientService = new Mock<IPatientService>();
+            _logger = new Mock<ILogger<PatientController>>();
+
+            _controller = new PatientController(_patientService.Object, _logger.Object);
+        }
+
+        [Fact]
+        public void GetByNHSNumber_ShouldReturnBuiltPatient_WhenIdIsValid()
+        {
+            // Arrange
+            string apiKey = "testkey";
+            string authorization = "auth";
+            string validId = "8888842799";
+
+            _patientService.Setup(x => x.GetByNHSNumber(validId)).Returns(new Patient() { Id= "8888842799" });
+
+            ActionResult<Patient> response = _controller.GetByNhsId(apiKey, authorization, validId);
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.Result);
+            Assert.NotNull(response.Value);
+            Assert.IsType<OkObjectResult>(response.Result);
+            Assert.IsType<Patient>(response.Value);
+            Assert.True(response.Value.Id == validId);
+        }
+    }
+}

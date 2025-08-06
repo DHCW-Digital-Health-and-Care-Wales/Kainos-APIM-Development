@@ -430,6 +430,6 @@ FodyWeavers.xsd
 *.msp
 
 # Do not include logs folder
-logs/
+src/logs/
 
 launchSettings.json
