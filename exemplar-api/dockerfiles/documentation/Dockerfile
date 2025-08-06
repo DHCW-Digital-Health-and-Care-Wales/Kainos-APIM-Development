@@ -1,4 +1,4 @@
-FROM squidfunk/mkdocs-material
+FROM squidfunk/mkdocs-material AS documentation
 
 COPY ./certs /usr/local/share/ca-certificates/
 
