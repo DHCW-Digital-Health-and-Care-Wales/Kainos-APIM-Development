@@ -31,7 +31,7 @@ namespace UnitTests.Controllers.FHIR.R4
             string validId = "8888842799";
 
             _patientService.Setup(x => x.GetByNHSNumber(validId)).Returns(new Patient() { Id= "8888842799" });
-
+            
             ActionResult<Patient> response = _controller.GetByNhsId(apiKey, authorization, validId);
 
             Assert.NotNull(response);
