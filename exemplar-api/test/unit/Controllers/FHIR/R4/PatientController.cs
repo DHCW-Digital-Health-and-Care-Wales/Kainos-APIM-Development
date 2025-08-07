@@ -28,9 +28,9 @@ namespace UnitTests.Controllers.FHIR.R4
             // Arrange
             string apiKey = "testkey";
             string authorization = "auth";
-            string validId = "8888842799";
+            string validId = "4857773457";
 
-            _patientService.Setup(x => x.GetByNHSNumber(validId)).Returns(new Patient() { Id= "8888842799" });
+            _patientService.Setup(x => x.GetByNHSNumber(validId)).Returns(new Patient() { Id= validId });
             
             ActionResult<Patient> response = _controller.GetByNhsId(apiKey, authorization, validId);
 
