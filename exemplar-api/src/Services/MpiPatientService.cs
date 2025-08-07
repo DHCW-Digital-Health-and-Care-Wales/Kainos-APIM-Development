@@ -1,7 +1,8 @@
-﻿using Hl7.Fhir.Model;
+﻿using DemographicsREST.Services;
+using DHCW.PD.Exceptions;
 using DHCW.PD.Helpers;
 using DHCW.PD.Validators;
-using DHCW.PD.Exceptions;
+using Hl7.Fhir.Model;
 
 namespace DHCW.PD.Services;
 
@@ -15,7 +16,7 @@ public class MpiPatientService : IPatientService
     private int _port;
 
     public MpiPatientService(
-        IConfiguration configuration,
+        MPIServiceConfiguration configuration,
         INhsIdValidator nhsIdValidator,
         PatientBuilder personBuilder,
         ILogger<MpiPatientService> logger
@@ -25,8 +26,8 @@ public class MpiPatientService : IPatientService
         _patientBuilder = personBuilder;
         _logger = logger;
 
-        _hostname = configuration["MPI:Hostname"] ?? "localhost";
-        _port = int.Parse(configuration["MPI:Port"] ?? "23001");
+        _hostname = configuration.Hostname;
+        _port = configuration.Port;
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)

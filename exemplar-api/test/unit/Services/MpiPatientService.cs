@@ -1,16 +1,17 @@
-using Xunit;
-using Moq;
-using Hl7.Fhir.Model;
+using DemographicsREST.Services;
+using DHCW.PD.Exceptions;
+using DHCW.PD.Helpers;
 using DHCW.PD.Services;
 using DHCW.PD.Validators;
-using DHCW.PD.Helpers;
-using DHCW.PD.Exceptions;
+using Hl7.Fhir.Model;
 using Microsoft.Extensions.Logging;
+using Moq;
 using System.IO;
+using Xunit;
 
 public class MpiPatientServiceTests
 {
-    private readonly Mock<IConfiguration> _configurationMock;
+    private readonly Mock<MPIServiceConfiguration> _configurationMock;
     private readonly Mock<INhsIdValidator> _validatorMock;
     private readonly Mock<ILogger<MpiPatientService>> _loggerMock;
     private readonly PatientBuilder _patientBuilder;
@@ -18,7 +19,7 @@ public class MpiPatientServiceTests
 
     public MpiPatientServiceTests()
     {
-        _configurationMock = new Mock<IConfiguration>();
+        _configurationMock = new Mock<MPIServiceConfiguration>();
         _validatorMock = new Mock<INhsIdValidator>();
         _loggerMock = new Mock<ILogger<MpiPatientService>>();
         _patientBuilder = new PatientBuilder();
