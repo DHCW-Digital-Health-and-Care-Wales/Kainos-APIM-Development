@@ -1,7 +1,8 @@
-﻿using Hl7.Fhir.Model;
+﻿using DemographicsREST.Services;
+using DHCW.PD.Exceptions;
 using DHCW.PD.Helpers;
 using DHCW.PD.Validators;
-using DHCW.PD.Exceptions;
+using Hl7.Fhir.Model;
 
 namespace DHCW.PD.Services;
 
@@ -11,15 +12,22 @@ public class MpiPatientService : IPatientService
     private readonly PatientBuilder _patientBuilder;
 	private readonly ILogger<MpiPatientService> _logger;
 
+    private string _hostname;
+    private int _port;
+
     public MpiPatientService(
+        MPIServiceConfiguration configuration,
         INhsIdValidator nhsIdValidator,
-        PatientBuilder patientBuilder,
-		ILogger<MpiPatientService> logger
+        PatientBuilder personBuilder,
+        ILogger<MpiPatientService> logger
     )
     {
         _nhsIdValidator = nhsIdValidator;
-        _patientBuilder = patientBuilder;
-		_logger = logger;
+        _patientBuilder = personBuilder;
+        _logger = logger;
+
+        _hostname = configuration.Hostname;
+        _port = configuration.Port;
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
@@ -36,7 +44,7 @@ public class MpiPatientService : IPatientService
             "3333342799" => throw new ForbiddenException(),
             "4444442799" => throw new DHCW.PD.Exceptions.TimeoutException(),
             "5555542799" => throw new Exception(),
-			"8888842799" => _patientBuilder.Build(),
+            "4857773457" => _patientBuilder.Build(),
             _ => ValidateIdAndReturnPatient(nhsNumber)
         };
     }
