@@ -3,6 +3,7 @@ using DHCW.PD.Services;
 using Hl7.Fhir.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Newtonsoft.Json;
 
 namespace UnitTests.Controllers.FHIR.R4
 {
@@ -35,10 +36,10 @@ namespace UnitTests.Controllers.FHIR.R4
 
             Assert.NotNull(response);
             Assert.NotNull(response.Result);
-            Assert.NotNull(response.Value);
-            Assert.IsType<OkObjectResult>(response.Result);
-            Assert.IsType<Patient>(response.Value);
-            Assert.True(response.Value.Id == validId);
+            Patient p = TestUtility.GetObjectResultContent<Patient>(response);
+            Assert.True(p.Id == validId);
         }
+
+
     }
 }
