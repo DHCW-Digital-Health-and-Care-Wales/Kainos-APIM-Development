@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
-builder.Services.AddSingleton<NhsIdValidator>();
+builder.Services.AddSingleton<INhsIdValidator, NhsIdValidator>();
 builder.Services.AddSingleton<PatientBuilder>();
 
 var app = builder.Build();

@@ -22,6 +22,18 @@ services:
     profiles:
       - tests
 
+  api-contract-tests:
+    build:
+      dockerfile: ./dockerfiles/api/Dockerfile
+      context: .
+      target: build
+    volumes:
+      - ./test-results/api-contract/:/test-results
+    command: >
+      dotnet test test/api-contract/ApiContractTests.csproj --logger "trx;LogFileName=/test-results/test-results.trx"
+    profiles:
+      - tests
+
   api:
     build: 
       dockerfile: ./dockerfiles/api/Dockerfile
