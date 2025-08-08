@@ -1,5 +1,5 @@
-using System.Text.Json;
 using DHCW.PD.Exceptions;
+using System.Text.Json;
 
 namespace DHCW.PD.Middlewares;
 

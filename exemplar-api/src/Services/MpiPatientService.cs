@@ -1,4 +1,4 @@
-﻿using DemographicsREST.Services;
+﻿using DHCW.PD.Configuration;
 using DHCW.PD.Exceptions;
 using DHCW.PD.Helpers;
 using DHCW.PD.Validators;
@@ -10,7 +10,7 @@ public class MpiPatientService : IPatientService
 {
     private readonly INhsIdValidator _nhsIdValidator;
     private readonly PatientBuilder _patientBuilder;
-	private readonly ILogger<MpiPatientService> _logger;
+    private readonly ILogger<MpiPatientService> _logger;
 
     private string _hostname;
     private int _port;
@@ -55,7 +55,7 @@ public class MpiPatientService : IPatientService
             throw new InvalidDataException();
 
         return _patientBuilder
-			.Id(id)
-			.Build();
+            .Id(id)
+            .Build();
     }
 }

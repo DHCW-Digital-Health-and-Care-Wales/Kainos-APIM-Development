@@ -1,4 +1,4 @@
-﻿namespace DemographicsREST.Services
+﻿namespace DHCW.PD.Configuration
 {
     public class MPIServiceConfiguration
     {

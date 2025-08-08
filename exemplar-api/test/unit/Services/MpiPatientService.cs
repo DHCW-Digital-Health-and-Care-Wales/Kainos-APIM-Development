@@ -1,13 +1,9 @@
-using DemographicsREST.Services;
+using DHCW.PD.Configuration;
 using DHCW.PD.Exceptions;
 using DHCW.PD.Helpers;
 using DHCW.PD.Services;
 using DHCW.PD.Validators;
-using Hl7.Fhir.Model;
-using Microsoft.Extensions.Logging;
 using Moq;
-using System.IO;
-using Xunit;
 
 public class MpiPatientServiceTests
 {

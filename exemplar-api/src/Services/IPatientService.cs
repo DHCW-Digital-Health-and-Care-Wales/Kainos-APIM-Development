@@ -1,5 +1,4 @@
 ﻿using Hl7.Fhir.Model;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DHCW.PD.Services;
 

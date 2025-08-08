@@ -1,8 +1,9 @@
-using DHCW.PD.Validators;
-using DHCW.PD.Services;
+using DHCW.PD.Configuration;
 using DHCW.PD.Helpers;
+using DHCW.PD.Middlewares;
+using DHCW.PD.Services;
+using DHCW.PD.Validators;
 using Serilog;
-using DemographicsREST.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,9 @@ builder.Services.AddSingleton<NhsIdValidator>();
 builder.Services.AddSingleton<PatientBuilder>();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
 builder.Services.AddEndpointsApiExplorer();
-
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseSerilogRequestLogging();
 app.UseRouting();
 app.UseAuthorization();
