@@ -2,8 +2,6 @@ openapi: 3.0.4
 info:
   title: Patient demographics API
   description: 'Allows for management of patient demographics information.
-    
-    # API Guidance
 
     ## Who can use this API?
 
@@ -20,7 +18,7 @@ info:
 
     Describe how to authenticate with the service and how the request is authorized.
 
-    In order to make a valid request you must provide a JWT token that includes relevant scopes as floowing header:
+    In order to make a valid request you must provide a JWT token that includes relevant scopes as following header:
     </br>`Authorization: Bearer <TOKEN>`
 
     ## Roadmap
@@ -55,6 +53,7 @@ info:
     <li>array names are singular, for example line not lines for address lines</li>
     <li>data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an extension object</li>
 
+    
     ## Network access
     
     This section should include information about how the API is exposed and if it is visible over the internet, or requires access to internal network.
@@ -93,7 +92,7 @@ info:
     To test updating patient details, you must set up your own test data.
     </br>
 
-    # Production smoke testing
+    ### Production smoke testing
     
     You must not use real patient data for smoke testing in the production environment.
     </br></br>
@@ -138,7 +137,7 @@ info:
 servers:
 - url: http://localhost:3000/FHIR/R4
 paths:
-  /Patient/{number}:
+  /Patient/{nhsNumber}:
     get:
       tags:
       - Patient

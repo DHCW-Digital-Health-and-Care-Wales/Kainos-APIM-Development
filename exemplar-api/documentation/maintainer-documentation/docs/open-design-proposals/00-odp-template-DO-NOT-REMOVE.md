@@ -81,8 +81,3 @@ Include rationale based on trade-offs, alignment with goals, and feasibility.
 - Diagrams  
 - References  
 - Supporting data
-
----
-
-**Status:** Draft / Under Review / Approved  
-**Reviewers:** [List of reviewers or stakeholders]

@@ -59,8 +59,8 @@ git secrets --add 'SharedAccessSignature=.*'
 ### GCP
 
 ```bash
-git secrets --add 'AIza[0-9A-Za-z\\-_]{35}'  # GCP API Key
-git secrets --add '-----BEGIN PRIVATE KEY-----'  # GCP service account key
+git secrets --add 'AIza[0-9A-Za-z\\-_]{35}'
+git secrets --add '-----BEGIN PRIVATE KEY-----'
 git secrets --add 'project_id:.*'
 git secrets --add 'client_email:.*@.*\.iam\.gserviceaccount\.com'
 ```

@@ -5,4 +5,15 @@ theme:
 
 plugins:
   - search
-  - neoteroi.mkdocsoad
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
+
+
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - css/neoteroi-mkdocs.min.css
