@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "Patient Demographics API",
+    "description": "Postman collection for accessing the Patient Demographics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Patient by NHS ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer <your-token>",
+            "description": "JWT token for authentication"
+          },
+          {
+            "key": "x-api-key",
+            "value": "<your-api-key>",
+            "description": "API key for access"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/FHIR/R4/Patient/8192796701",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "FHIR",
+            "R4",
+            "Patient",
+            "8192796701"
+          ]
+        },
+        "description": "Lookup of a patient by a given NHS Number"
+      },
+      "response": []
+    }
+  ]
+}

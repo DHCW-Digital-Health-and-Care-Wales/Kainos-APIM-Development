@@ -1,0 +1,19 @@
+site_name: Patient Demographics API Documentation
+site_url: http://localhost:8000/
+theme:
+  name: material
+
+plugins:
+  - search
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
+
+
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - css/neoteroi-mkdocs.min.css
