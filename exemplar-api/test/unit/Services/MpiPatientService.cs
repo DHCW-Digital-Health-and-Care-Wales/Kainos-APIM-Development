@@ -62,12 +62,12 @@ public class MpiPatientServiceTests
     }
 	
 	[Fact]
-	public void GetByNHSNumber_ShouldReturnDefaultPatient_WhenIdIs8888842799()
+	public void GetByNHSNumber_ShouldReturnDefaultPatient_WhenIdIs4857773457()
 	{
-		var result = _service.GetByNHSNumber("8888842799");
+		var result = _service.GetByNHSNumber("4857773457");
 
 		Assert.NotNull(result);
-		Assert.Equal("8888842799", result.Id);
+		Assert.Equal("4857773457", result.Id);
 		Assert.Equal("Holmes", result.Name[0].Family); 
 	}
 }

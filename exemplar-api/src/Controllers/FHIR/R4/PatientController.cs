@@ -34,7 +34,6 @@ public class PatientController : ControllerBase
         ExceptionHelper.ExecuteThrowableIfEmptyOrNull(id, () => throw new BadRequestException());
 
         Patient patient = _patientService.GetByNHSNumber(id);
-
         return Ok(patient);
     }
 }
