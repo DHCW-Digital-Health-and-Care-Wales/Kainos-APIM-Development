@@ -1,6 +1,15 @@
 name: Patient Demographics API
 
 services:
+  performance-tests:
+    build:
+      dockerfile: ./dockerfiles/performance-tests/Dockerfile
+      context: .
+    volumes:
+      - ./test-results/performance/:/test-results
+    profiles:
+      - tests
+
   unit-tests:
     build:
       dockerfile: ./dockerfiles/api/Dockerfile
