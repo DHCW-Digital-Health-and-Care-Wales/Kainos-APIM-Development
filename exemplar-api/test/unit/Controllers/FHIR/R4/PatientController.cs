@@ -5,7 +5,6 @@ using DHCW.PD.Helpers;
 using DHCW.PD.Services;
 using DHCW.PD.Validators;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Model.CdsHooks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
