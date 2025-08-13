@@ -18,7 +18,7 @@ public sealed class ContractTest
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/4857773457");
+		HttpResponseMessage result = await client.GetAsync("/FHIR/R4/Patient/4857773457");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -44,7 +44,7 @@ public sealed class ContractTest
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/1111142799");
+		HttpResponseMessage result = await client.GetAsync("/FHIR/R4/Patient/1111142799");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.RequestTimeout, result.StatusCode);
@@ -57,7 +57,7 @@ public sealed class ContractTest
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/28");
+		HttpResponseMessage result = await client.GetAsync("/FHIR/R4/Patient/28");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -70,7 +70,7 @@ public sealed class ContractTest
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("/Patient");
+		HttpResponseMessage result = await client.GetAsync("/FHIR/R4/Patient");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
@@ -82,7 +82,7 @@ public sealed class ContractTest
 		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
-		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/8888842799");
+		HttpResponseMessage result = await client.GetAsync("/FHIR/R4/Patient/8888842799");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);

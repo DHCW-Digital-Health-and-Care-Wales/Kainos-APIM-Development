@@ -5,7 +5,7 @@ using Moq;
 
 namespace UnitTests.Middlewares
 {
-    public class ExceptionMiddlewareTest
+    public sealed class ExceptionMiddlewareTest
     {
 
         private readonly Mock<RequestDelegate> _next;

@@ -4,7 +4,7 @@ using DHCW.PD.Services;
 using DHCW.PD.Validators;
 using Moq;
 
-public class MpiPatientServiceTests
+public sealed class MpiPatientServiceTests
 {
     private readonly Mock<IConfiguration> _configurationMock;
     private readonly Mock<INhsIdValidator> _validatorMock;

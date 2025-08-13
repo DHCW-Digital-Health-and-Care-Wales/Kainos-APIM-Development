@@ -2,7 +2,7 @@
 
 namespace UnitTests.Validators
 {
-    public class NhsIdValidatorTest
+    public sealed class NhsIdValidatorTest
     {
 
         NhsIdValidator _validator;

@@ -8,7 +8,7 @@ using Moq;
 
 namespace UnitTests.Controllers.FHIR.R4
 {
-    public class PatientControllerTests
+    public sealed class PatientControllerTests
     {
 
         private readonly IPatientService _patientService;
