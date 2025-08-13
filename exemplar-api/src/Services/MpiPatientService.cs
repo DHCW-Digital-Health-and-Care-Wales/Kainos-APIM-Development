@@ -16,7 +16,7 @@ public class MpiPatientService : IPatientService
     private int _port;
 
     public MpiPatientService(
-        MPIServiceConfiguration configuration,
+        IConfiguration configuration,
         INhsIdValidator nhsIdValidator,
         PatientBuilder personBuilder,
         ILogger<MpiPatientService> logger
@@ -26,8 +26,9 @@ public class MpiPatientService : IPatientService
         _patientBuilder = personBuilder;
         _logger = logger;
 
-        _hostname = configuration.Hostname;
-        _port = configuration.Port;
+        IConfigurationSection section = configuration.GetSection("MPIServiceConfiguration");
+        _hostname = section["Hostname"] ?? "localhost";
+        _port = int.Parse(section["Hostname"] ?? "9001");
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)

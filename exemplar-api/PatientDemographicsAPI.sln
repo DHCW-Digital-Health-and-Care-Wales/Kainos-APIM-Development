@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientDemographicsAPI", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "test\unit\UnitTests.csproj", "{7344E226-7757-4A64-B2AC-D7B0FC941A43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiContractTests", "test\api-contract\ApiContractTests.csproj", "{204FBAE0-C666-6DE6-926E-96BB96C4D890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7344E226-7757-4A64-B2AC-D7B0FC941A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7344E226-7757-4A64-B2AC-D7B0FC941A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7344E226-7757-4A64-B2AC-D7B0FC941A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204FBAE0-C666-6DE6-926E-96BB96C4D890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204FBAE0-C666-6DE6-926E-96BB96C4D890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204FBAE0-C666-6DE6-926E-96BB96C4D890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204FBAE0-C666-6DE6-926E-96BB96C4D890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

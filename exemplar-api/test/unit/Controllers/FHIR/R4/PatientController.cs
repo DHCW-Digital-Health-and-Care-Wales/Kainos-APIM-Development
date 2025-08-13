@@ -14,7 +14,7 @@ namespace UnitTests.Controllers.FHIR.R4
     {
 
         private readonly IPatientService _patientService;
-        private readonly Mock<MPIServiceConfiguration> _configurationMock;
+        private readonly Mock<IConfiguration> _configurationMock;
         private readonly Mock<INhsIdValidator> _validatorMock;
         private readonly Mock<ILogger<PatientController>> _logger;
         private readonly PatientController _controller;
@@ -22,7 +22,7 @@ namespace UnitTests.Controllers.FHIR.R4
         public PatientControllerTests()
         {
             _logger = new Mock<ILogger<PatientController>>();
-            _configurationMock = new Mock<MPIServiceConfiguration>();
+            _configurationMock = new Mock<IConfiguration>();
             _validatorMock = new Mock<INhsIdValidator>();
             _patientService = new MpiPatientService(
                 _configurationMock.Object,

@@ -7,7 +7,7 @@ using Moq;
 
 public class MpiPatientServiceTests
 {
-    private readonly Mock<MPIServiceConfiguration> _configurationMock;
+    private readonly Mock<IConfiguration> _configurationMock;
     private readonly Mock<INhsIdValidator> _validatorMock;
     private readonly Mock<ILogger<MpiPatientService>> _loggerMock;
     private readonly PatientBuilder _patientBuilder;
@@ -15,7 +15,7 @@ public class MpiPatientServiceTests
 
     public MpiPatientServiceTests()
     {
-        _configurationMock = new Mock<MPIServiceConfiguration>();
+        _configurationMock = new Mock<IConfiguration>();
         _validatorMock = new Mock<INhsIdValidator>();
         _loggerMock = new Mock<ILogger<MpiPatientService>>();
         _patientBuilder = new PatientBuilder();
