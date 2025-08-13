@@ -1,4 +1,3 @@
-using DHCW.PD.Configuration;
 using DHCW.PD.Helpers;
 using DHCW.PD.Middlewares;
 using DHCW.PD.Services;
@@ -13,7 +12,7 @@ builder.Host.UseSerilog((context, configuration) =>
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSingleton<NhsIdValidator>();
+builder.Services.AddSingleton<INhsIdValidator, NhsIdValidator>();
 builder.Services.AddSingleton<PatientBuilder>();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
 var app = builder.Build();

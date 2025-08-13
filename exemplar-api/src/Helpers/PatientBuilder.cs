@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace DHCW.PD.Helpers;
 
 [ExcludeFromCodeCoverage]
-public class PatientBuilder
+public sealed class PatientBuilder
 {
     private string family = "Holmes";
     private string given = "Sherlock";

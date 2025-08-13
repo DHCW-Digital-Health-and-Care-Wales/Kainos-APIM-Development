@@ -1,6 +1,4 @@
-﻿using DHCW.PD.Configuration;
-using DHCW.PD.Controllers;
-using DHCW.PD.Exceptions;
+﻿using DHCW.PD.Controllers;
 using DHCW.PD.Helpers;
 using DHCW.PD.Services;
 using DHCW.PD.Validators;

@@ -2,7 +2,7 @@ namespace DHCW.PD.Validators;
 
 public interface INhsIdValidator : IValidator<string, bool> { }
 
-public class NhsIdValidator : INhsIdValidator
+public sealed class NhsIdValidator : INhsIdValidator
 {
     public bool IsValid(string value)
     {

@@ -1,12 +1,11 @@
-﻿using DHCW.PD.Configuration;
-using DHCW.PD.Exceptions;
+﻿using DHCW.PD.Exceptions;
 using DHCW.PD.Helpers;
 using DHCW.PD.Validators;
 using Hl7.Fhir.Model;
 
 namespace DHCW.PD.Services;
 
-public class MpiPatientService : IPatientService
+public sealed class MpiPatientService : IPatientService
 {
     private readonly INhsIdValidator _nhsIdValidator;
     private readonly PatientBuilder _patientBuilder;

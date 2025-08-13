@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace DHCW.PD.Exceptions;
 
 [ExcludeFromCodeCoverage]
-public class BadRequestException : Exception
+public sealed class BadRequestException : Exception
 {
     private const string ExceptionMessage = "Bad request";
 
