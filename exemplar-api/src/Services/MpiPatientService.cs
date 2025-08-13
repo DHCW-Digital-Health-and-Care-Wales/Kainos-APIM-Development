@@ -26,8 +26,17 @@ public sealed class MpiPatientService : IPatientService
         _logger = logger;
 
         IConfigurationSection section = configuration.GetSection("MPIServiceConfiguration");
-        _hostname = section["Hostname"] ?? "localhost";
-        _port = int.Parse(section["Port"] ?? "9001");
+        if (section is not null)
+        {
+            _hostname = section["Hostname"] ?? "localhost";
+            _port = int.Parse(section["Port"] ?? "9001");
+        }
+        else
+        {
+            _hostname = "localhost";
+            _port = 9001;
+            _logger.LogWarning("MPIServiceConfiguration section not found in configuration. Using default values.");
+        }
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
