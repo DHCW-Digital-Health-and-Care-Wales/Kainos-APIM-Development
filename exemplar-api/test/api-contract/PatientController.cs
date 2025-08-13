@@ -1,17 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 
-public class UnitTest1
+public sealed class ContractTest
 {
-	[Fact]
+
+	private WebApplicationFactory<Program> _factory;
+
+    public ContractTest()
+	{
+		_factory = new WebApplicationFactory<Program>();
+    }
+
+    [Fact]
 	public async Task Search_NHSNumber_RecordFound()
 	{
-		await using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>();
-		using HttpClient client = application.CreateClient();
+		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("/Patient/8888842799");
+		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/4857773457");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -20,12 +27,11 @@ public class UnitTest1
 	[Fact]
 	public async Task Search_NHSNumber_RecordNotFound()
 	{
-		await using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>();
-		using HttpClient client = application.CreateClient();
+		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("/Patient/7777742799");
+		HttpResponseMessage result = await client.GetAsync("/FHIR/R4/Patient/7777742799");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
@@ -34,12 +40,11 @@ public class UnitTest1
 	[Fact]
 	public async Task Search_NHSNumber_Timeout()
 	{
-		await using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>();
-		using HttpClient client = application.CreateClient();
+		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("/Patient/1111142799");
+		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/1111142799");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.RequestTimeout, result.StatusCode);
@@ -48,12 +53,11 @@ public class UnitTest1
 	[Fact]
 	public async Task Search_NHSNumber_InvalidNHSNumber()
 	{
-		await using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>();
-		using HttpClient client = application.CreateClient();
+		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
-		HttpResponseMessage result = await client.GetAsync("/Patient/28");
+		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/28");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -62,8 +66,7 @@ public class UnitTest1
 	[Fact]
 	public async Task Search_NHSNumber_InternalServerError()
 	{
-		await using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>();
-		using HttpClient client = application.CreateClient();
+		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
 		client.DefaultRequestHeaders.Add("ApiKey", "TestApiKey");
@@ -76,11 +79,10 @@ public class UnitTest1
 	[Fact]
 	public async Task Search_NHSNumber_Unauthorised()
 	{
-		await using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>();
-		using HttpClient client = application.CreateClient();
+		using HttpClient client = _factory.CreateClient();
 
 		// Perform action
-		HttpResponseMessage result = await client.GetAsync("/Patient/8888842799");
+		HttpResponseMessage result = await client.GetAsync("FHIR/R4/Patient/8888842799");
 
 		// Assert
 		Assert.Equal(HttpStatusCode.Unauthorized, result.StatusCode);

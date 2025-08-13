@@ -27,7 +27,7 @@ public sealed class MpiPatientService : IPatientService
 
         IConfigurationSection section = configuration.GetSection("MPIServiceConfiguration");
         _hostname = section["Hostname"] ?? "localhost";
-        _port = int.Parse(section["Hostname"] ?? "9001");
+        _port = int.Parse(section["Port"] ?? "9001");
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
