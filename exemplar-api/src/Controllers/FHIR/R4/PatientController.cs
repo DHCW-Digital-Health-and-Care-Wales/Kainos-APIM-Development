@@ -1,8 +1,8 @@
-﻿using Hl7.Fhir.Model;
-using Microsoft.AspNetCore.Mvc;
-using DHCW.PD.Services;
-using DHCW.PD.Exceptions;
+﻿using DHCW.PD.Exceptions;
 using DHCW.PD.Helpers;
+using DHCW.PD.Services;
+using Hl7.Fhir.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DHCW.PD.Controllers;
 
@@ -29,11 +29,14 @@ public class PatientController : ControllerBase
         string id
     )
     {
+		_logger.LogInformation("Invoked endpoint with NHS number: {NhsNumber}", id);
         ExceptionHelper.ExecuteThrowableIfEmptyOrNull(authorization, () => throw new UnauthorizedException());
         ExceptionHelper.ExecuteThrowableIfEmptyOrNull(apiKey, () => throw new ForbiddenException());
         ExceptionHelper.ExecuteThrowableIfEmptyOrNull(id, () => throw new BadRequestException());
 
         Patient patient = _patientService.GetByNHSNumber(id);
+
+		_logger.LogInformation("Patient found: {NhsNumber}", patient.Id);
 
         return Ok(patient);
     }

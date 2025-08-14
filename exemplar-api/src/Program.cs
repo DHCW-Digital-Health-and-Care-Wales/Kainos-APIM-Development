@@ -1,22 +1,34 @@
-using DHCW.PD.Validators;
-using DHCW.PD.Services;
+using DHCW.PD.Configuration;
 using DHCW.PD.Helpers;
+using DHCW.PD.Middlewares;
+using DHCW.PD.Services;
+using DHCW.PD.Validators;
+using Microsoft.Extensions.Options;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
+
+builder.Services.Configure<MPIServiceConfiguration>(builder.Configuration.GetSection("MPIServiceConfiguration"));
+builder.Services.AddSingleton<MPIServiceConfiguration>(provider => 
+    provider.GetRequiredService<IOptions<MPIServiceConfiguration>>().Value);
+
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSingleton<IPatientService, MpiPatientService>();
-builder.Services.AddSingleton<INhsIdValidator, NhsIdValidator>();
 builder.Services.AddSingleton<PatientBuilder>();
-
+builder.Services.AddSingleton<INhsIdValidator, NhsIdValidator>();
+builder.Services.AddSingleton<IPatientService, MpiPatientService>();
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseSerilogRequestLogging();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
 
-// TODO: remove after test containers is added
 public partial class Program { }

@@ -17,6 +17,8 @@
     <PackageReference Include="Hl7.Fhir.R4" Version="5.12.1" />
     <PackageReference Include="Hl7.Fhir.Specification.Data.R4" Version="5.12.1" />
     <PackageReference Include="Hl7.Fhir.Specification.R4" Version="5.12.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
