@@ -1,0 +1,21 @@
+type: object
+properties:
+  use:
+    type: string
+    enum:
+      - usual
+      - official
+      - temp
+      - secondary
+      - old
+  type:
+    $ref: './CodeableConcept.yaml'
+  system:
+    type: string
+    format: uri
+  value:
+    type: string
+  period:
+    $ref: './Period.yaml'
+  assigner:
+    $ref: './Reference.yaml'

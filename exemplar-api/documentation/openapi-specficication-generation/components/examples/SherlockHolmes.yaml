@@ -1,0 +1,12 @@
+summary: Sherlock Holmes
+value:
+  resourceType: Patient
+  id: '1234567890'
+  active: true
+  name:
+    - use: official
+      family: Holmes
+      given:
+        - Sherlock
+  gender: male
+  birthDate: '1980-01-01'

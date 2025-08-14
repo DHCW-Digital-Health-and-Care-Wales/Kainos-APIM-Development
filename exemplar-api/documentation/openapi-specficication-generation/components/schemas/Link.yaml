@@ -1,0 +1,11 @@
+type: object
+properties:
+  other:
+    $ref: './Reference.yaml'
+  type:
+    type: string
+    enum:
+      - replaced-by
+      - replaces
+      - refer
+      - seealso

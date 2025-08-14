@@ -1,0 +1,22 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    enum:
+      - OperationOutcome
+  issue:
+    type: array
+    items:
+      $ref: './Issue.yaml'
+example:
+  resourceType: OperationOutcome
+  issue:
+    - severity: error
+      code: invalid
+      details:
+        text: Invalid patient ID
+      diagnostics: The provided ID does not match any patient record.
+      location:
+        - Patient.id
+      expression:
+        - Patient.id

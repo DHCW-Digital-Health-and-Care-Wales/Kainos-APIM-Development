@@ -1,0 +1,15 @@
+type: object
+properties:
+  status:
+    type: string
+    enum: [UP, DOWN, DEGRADED]
+  version:
+    type: string
+  timestamp:
+    type: string
+    format: date-time
+  dependencies:
+    type: object
+    additionalProperties:
+      type: string
+      enum: [UP, DOWN]

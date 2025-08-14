@@ -1,0 +1,20 @@
+description: Timeout
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      Timeout:
+        summary: Server timeout
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: timeout
+              details:
+                text: Request timeout
+              diagnostics: The server timed out while fulfilling the request.
+              location:
+                - Server
+              expression:
+                - Server

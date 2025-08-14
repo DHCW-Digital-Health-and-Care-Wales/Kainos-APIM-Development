@@ -1,0 +1,48 @@
+description: Forbidden
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      MissingApiKey:
+        summary: Missing x-api-key header
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: forbidden
+              details:
+                text: Access denied
+              diagnostics: Missing x-api-key header.
+              location:
+                - Request.header.x-api-key
+              expression:
+                - Request.header.x-api-key
+      InvalidApiKey:
+        summary: Invalid x-api-key-header
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: forbidden
+              details:
+                text: Access denied
+              diagnostics: Invalid x-api-key header.
+              location:
+                - Request.header.x-api-key
+              expression:
+                - Request.header.x-api-key
+      MissingUserPermissions:
+        summary: Missing user permissions
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: forbidden
+              details:
+                text: Access denied
+              diagnostics: User does not have permission to access this resource.
+              location:
+                - Request.header.x-api-key
+              expression:
+                - Request.header.x-api-key

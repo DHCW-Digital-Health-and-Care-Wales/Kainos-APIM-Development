@@ -15,8 +15,8 @@ builder.Services.Configure<MPIServiceConfiguration>(builder.Configuration.GetSec
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSingleton<NhsIdValidator>();
 builder.Services.AddSingleton<PatientBuilder>();
+builder.Services.AddSingleton<INhsIdValidator, NhsIdValidator>();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
 builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
