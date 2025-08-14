@@ -1,8 +1,7 @@
-﻿namespace DHCW.PD.Configuration
+﻿namespace DHCW.PD.Configuration;
+
+public class MPIServiceConfiguration
 {
-    public class MPIServiceConfiguration
-    {
-        public string Hostname { get; set; }
-        public int Port { get; set; }
-    }
+    public string Hostname { get; set; }
+    public int Port { get; set; }
 }

@@ -11,9 +11,7 @@ public class MpiPatientService : IPatientService
     private readonly INhsIdValidator _nhsIdValidator;
     private readonly PatientBuilder _patientBuilder;
     private readonly ILogger<MpiPatientService> _logger;
-
-    private string _hostname;
-    private int _port;
+    private readonly MPIServiceConfiguration _configuration;
 
     public MpiPatientService(
         MPIServiceConfiguration configuration,
@@ -25,9 +23,7 @@ public class MpiPatientService : IPatientService
         _nhsIdValidator = nhsIdValidator;
         _patientBuilder = personBuilder;
         _logger = logger;
-
-        _hostname = configuration.Hostname;
-        _port = configuration.Port;
+        _configuration = configuration;
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
@@ -51,11 +47,22 @@ public class MpiPatientService : IPatientService
 
     private Patient ValidateIdAndReturnPatient(string id)
     {
+		_logger.LogDebug("Validating Patient NHS number: {NhsNumber}", id);
         if (!_nhsIdValidator.IsValid(id))
+		{
+			_logger.LogError("Invalid NHS number: {NhsNumber}", id);
             throw new InvalidDataException();
+		}
+		_logger.LogDebug("Patient NHS number: {NhsNumber} is valid", id);
 
-        return _patientBuilder
+		_logger.LogInformation("Calling MPI service to fetch Patient data for Patient NHS number: {NhsNumber}", id);
+
+        Patient patient = _patientBuilder
             .Id(id)
             .Build();
+
+		_logger.LogDebug("Patient data fetched from MPI service for Patient NHS number: {NhsNumber}", id);
+
+		return patient;
     }
 }
