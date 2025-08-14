@@ -1,7 +1,8 @@
 openapi: 3.0.4
 info:
   title: Patient demographics API
-  description: 'Allows for management of patient demographics information.
+  description: |
+    Allows for management of patient demographics information.
 
     ## Who can use this API?
 
@@ -53,33 +54,29 @@ info:
     <li>array names are singular, for example line not lines for address lines</li>
     <li>data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an extension object</li>
 
-    
+
     ## Network access
-    
+
     This section should include information about how the API is exposed and if it is visible over the internet, or requires access to internal network.
 
     ## Environments and testing
 
-    | Environment | Base URL              |
-
-    |-------------|-----------------------|
-
-    |Sandbox | https://sandbox.api.example.com/FHIR/R4/|
-
-    |UAT |	https://uat.api.example.com/FHIR/R4/|
-
-    |Production	| https://api.example.com/FHIR/R4/|
+    | Environment | Base URL |
+    |-------------|----------|
+    | Sandbox | https://sandbox.api.example.com/FHIR/R4/ |
+    | UAT | https://uat.api.example.com/FHIR/R4/ |
+    | Production | https://api.example.com/FHIR/R4/ |
 
 
     ### Sandbox testing
-    
+
     Our sandbox environment:
 
     <li>is for early developer testing</li>
     <li>only covers a limited set of scenarios</li>
     <li>is stateless, so does not actually persist any updates</li>
     <li>is open access, so does not allow you to test authorisation</li>
-  
+
 
     ### UAT
 
@@ -93,7 +90,7 @@ info:
     </br>
 
     ### Production smoke testing
-    
+
     You must not use real patient data for smoke testing in the production environment.
     </br></br>
 
@@ -102,29 +99,21 @@ info:
 
     ## Error Codes
 
-    | Status | Code              | Description                          |
-
-    |--------|-------------------|--------------------------------------|
-
-    | 400    | invalid           | Malformed syntax                     |
-
-    | 401    | security          | Missing/invalid token                |
-
-    | 403    | forbidden         | Missing API key or permissions       |
-
-    | 404    | not-found         | Patient not found                    |
-
-    | 408    | timeout           | Server timeout                       |
-
-    | 429    | too-many-requests | Rate limit exceeded. Retry later.    |
-
-    | 500    | exception         | Internal server error                |
+    | Status | Code | Description |
+    |--------|------|-------------|
+    | 400 | invalid | Malformed syntax |
+    | 401 | security | Missing/invalid token |
+    | 403 | forbidden | Missing API key or permissions |
+    | 404 | not-found | Patient not found |
+    | 408 | timeout | Server timeout |
+    | 429 | too-many-requests | Rate limit exceeded. Retry later. |
+    | 500 | exception | Internal server error |
 
 
     ## Versioning
 
     This API is based on HL7 FHIR R4 specification. Future versions will be available
-    under `/FHIR/R5` or similar paths.'
+    under `/FHIR/R5` or similar paths.
   version: 0.0.1
   contact:
     name: API Support
@@ -135,264 +124,68 @@ info:
     url: https://opensource.org/licenses/MIT
   termsOfService: https://example.com/terms
 servers:
-- url: http://localhost:3000/FHIR/R4
+  - url: http://localhost:3000/FHIR/R4
+security:
+  - auth: []
+tags:
+  - name: Patient
+    description: Operations related to patient demographics
+  - name: Health
+    description: Health check and status endpoints
+externalDocs:
+  description: HL7 FHIR Patient Resource
+  url: https://www.hl7.org/fhir/patient.html
 paths:
   /Patient/{nhsNumber}:
     get:
       tags:
-      - Patient
+        - Patient
       operationId: getPatientByNhsId
       summary: Lookup of a patient by a given NHS number
-      description: Returns a FHIR compliant Patient resource. More details can be
-        found in FHIR documentation at https://www.hl7.org/fhir/patient.html
+      description: Returns a FHIR compliant Patient resource. More details can be found in FHIR documentation at https://www.hl7.org/fhir/patient.html
       parameters:
-      - $ref: '#/components/parameters/NhsNumber'
-      - $ref: '#/components/parameters/ApiKey'
+        - $ref: '#/components/parameters/NhsNumber'
+        - $ref: '#/components/parameters/ApiKey'
       responses:
-        200:
-          description: Patient found
-          headers:
-            ETag:
-              description: VersionId from patient object
-              schema:
-                type: string
-                example: W/"2"
-              example: W/"2"
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/Patient'
-              examples:
-                JohnSmith:
-                  summary: John Smith
-                  value:
-                    resourceType: Patient
-                    id: '1234567890'
-                    active: true
-                    name:
-                    - use: official
-                      family: Smith
-                      given:
-                      - John
-                    gender: male
-                    birthDate: '1980-01-01'
-                SherlockHolmes:
-                  summary: Sherlock Holmes
-                  value:
-                    resourceType: Patient
-                    id: '1234567890'
-                    active: true
-                    name:
-                    - use: official
-                      family: Holmes
-                      given:
-                      - Sherlock
-                    gender: male
-                    birthDate: '1980-01-01'
-        400:
-          description: Bad request
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                InvalidRequest:
-                  summary: Invalid request
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: invalid
-                      details:
-                        text: Bad request due to malformed syntax
-                      diagnostics: Provided patient NHS ID is invalid.
-                      location:
-                      - Request.id
-                      expression:
-                      - Request.id
-        401:
-          description: Unauthorised
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                MissingAuthorizationToken:
-                  summary: Missing Authorization token
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: security
-                      details:
-                        text: Authentication required
-                      diagnostics: Missing authentication credentials.
-                      location:
-                      - Request.header.Authorization
-                      expression:
-                      - Request.header.Authorization
-                InvalidAuthorizationToken:
-                  summary: Invalid Authorization token
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: security
-                      details:
-                        text: Authentication required
-                      diagnostics: Invalid authentication credentials.
-                      location:
-                      - Request.header.Authorization
-                      expression:
-                      - Request.header.Authorization
-        403:
-          description: Forbidden
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                MissingApiKey:
-                  summary: Missing x-api-key header
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: forbidden
-                      details:
-                        text: Access denied
-                      diagnostics: Missing x-api-key header.
-                      location:
-                      - Request.header.x-api-key
-                      expression:
-                      - Request.header.x-api-key
-                InvalidApiKey:
-                  summary: Invalid x-api-key-header
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: forbidden
-                      details:
-                        text: Access denied
-                      diagnostics: Invalid x-api-key header.
-                      location:
-                      - Request.header.x-api-key
-                      expression:
-                      - Request.header.x-api-key
-                MissingUserPermissions:
-                  summary: Missing user permissions
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: forbidden
-                      details:
-                        text: Access denied
-                      diagnostics: User does not have permission to access this resource.
-                      location:
-                      - Request.header.x-api-key
-                      expression:
-                      - Request.header.x-api-key
-        404:
-          description: Patient not found
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                PatientNotFound:
-                  summary: Patient not found
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: not-found
-                      details:
-                        text: Resource not found
-                      diagnostics: No patient record found for the provided ID.
-                      location:
-                      - Patient.id
-                      expression:
-                      - Patient.id
-        408:
-          description: Timeout
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                Timeout:
-                  summary: Server timeout
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: timeout
-                      details:
-                        text: Request timeout
-                      diagnostics: The server timed out while fulfilling the request.
-                      location:
-                      - Server
-                      expression:
-                      - Server
-        429:
-          description: Too Many Requests
-          headers:
-            Retry-After:
-              description: Indicates how long to wait before making a new request
-              schema:
-                type: integer
-                format: int32
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                RateLimitExceeded:
-                  summary: Rate limit exceeded
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: too-many-requests
-                      details:
-                        text: Rate limit exceeded
-                      diagnostics: You have exceeded the number of allowed requests
-                        per minute.
-                      location:
-                      - Request
-                      expression:
-                      - Request
-        500:
-          description: Internal error
-          content:
-            application/fhir+json:
-              schema:
-                $ref: '#/components/schemas/OperationOutcome'
-              examples:
-                InternalServerError:
-                  summary: Server internal error
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                    - severity: error
-                      code: exception
-                      details:
-                        text: Internal server error
-                      diagnostics: An unexpected error occurred on the server.
-                      location:
-                      - Server
-                      expression:
-                      - Server
+        '200':
+          $ref: '#/components/responses/PatientFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '408':
+          $ref: '#/components/responses/Timeout'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalError'
       security:
-      - auth: []
+        - auth: []
+  /_status:
+    get:
+      tags:
+        - Health
+      operationId: getStatus
+      summary: Get API status and health information
+      description: Returns detailed status information about the API and its dependencies
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOk'
+  /_ping:
+    get:
+      tags:
+        - Health
+      operationId: ping
+      summary: Simple health check endpoint
+      description: Returns a simple response to verify the API is responding
+      responses:
+        '200':
+          $ref: '#/components/responses/PingOk'
 components:
-  securitySchemes:
-    auth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   parameters:
     NhsNumber:
       required: true
@@ -411,54 +204,6 @@ components:
         example: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4
       example: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4
   schemas:
-    Issue:
-      type: object
-      properties:
-        severity:
-          type: string
-          enum:
-          - fatal
-          - error
-          - warning
-          - information
-          - success
-        code:
-          $ref: '#/components/schemas/Code'
-        details:
-          $ref: '#/components/schemas/CodeableConcept'
-        diagnostics:
-          type: string
-        location:
-          type: array
-          items:
-            type: string
-        expression:
-          type: array
-          items:
-            type: string
-    OperationOutcome:
-      type: object
-      properties:
-        resourceType:
-          type: string
-          enum:
-          - OperationOutcome
-        issue:
-          type: array
-          items:
-            $ref: '#/components/schemas/Issue'
-      example:
-        resourceType: OperationOutcome
-        issue:
-        - severity: error
-          code: invalid
-          details:
-            text: Invalid patient ID
-          diagnostics: The provided ID does not match any patient record.
-          location:
-          - Patient.id
-          expression:
-          - Patient.id
     Code:
       type: string
       pattern: ^[^\s]+( [^\s]+)*$
@@ -477,15 +222,74 @@ components:
           type: string
         userSelected:
           type: boolean
-    CodeableConcept:
+    Meta:
       type: object
       properties:
-        coding:
+        versionId:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        source:
+          type: string
+          format: uri
+        profile:
+          type: array
+          items:
+            type: string
+            format: uri
+        security:
           type: array
           items:
             $ref: '#/components/schemas/Coding'
+        tag:
+          type: array
+          items:
+            $ref: '#/components/schemas/Coding'
+    Period:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+    Address:
+      type: object
+      properties:
+        use:
+          type: string
+          enum:
+            - home
+            - work
+            - temp
+            - old
+            - billing
+        type:
+          type: string
+          enum:
+            - postal
+            - physical
+            - both
         text:
           type: string
+        line:
+          type: array
+          items:
+            type: string
+        city:
+          type: string
+        district:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        period:
+          $ref: '#/components/schemas/Period'
     Attachment:
       type: object
       properties:
@@ -524,125 +328,56 @@ components:
         pages:
           type: integer
           minimum: 0
-    Period:
+    CodeableConcept:
       type: object
       properties:
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-    Reference:
-      type: object
-      properties:
-        reference:
-          type: string
-        type:
-          type: string
-          format: uri
-        identifier:
-          $ref: '#/components/schemas/Identifier'
-        display:
-          type: string
-    Address:
-      type: object
-      properties:
-        use:
-          type: string
-          enum:
-          - home
-          - work
-          - temp
-          - old
-          - billing
-        type:
-          type: string
-          enum:
-          - postal
-          - physical
-          - both
-        text:
-          type: string
-        line:
+        coding:
           type: array
           items:
-            type: string
-        city:
+            $ref: '#/components/schemas/Coding'
+        text:
           type: string
-        district:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        period:
-          $ref: '#/components/schemas/Period'
     ContactPoint:
       type: object
       properties:
         system:
           type: string
           enum:
-          - phone
-          - fax
-          - email
-          - pager
-          - url
-          - sms
-          - other
+            - phone
+            - fax
+            - email
+            - pager
+            - url
+            - sms
+            - other
         value:
           type: string
         use:
           type: string
           enum:
-          - home
-          - work
-          - temp
-          - old
-          - mobile
+            - home
+            - work
+            - temp
+            - old
+            - mobile
         rank:
           type: integer
           minimum: 0
         period:
           $ref: '#/components/schemas/Period'
-    Identifier:
-      type: object
-      properties:
-        use:
-          type: string
-          enum:
-          - usual
-          - official
-          - temp
-          - secondary
-          - old
-        type:
-          $ref: '#/components/schemas/CodeableConcept'
-        system:
-          type: string
-          format: uri
-        value:
-          type: string
-        period:
-          $ref: '#/components/schemas/Period'
-        assigner:
-          $ref: '#/components/schemas/Reference'
     HumanName:
       type: object
       properties:
         use:
           type: string
           enum:
-          - usual
-          - official
-          - temp
-          - nickname
-          - anonymous
-          - old
-          - maiden
+            - usual
+            - official
+            - temp
+            - nickname
+            - anonymous
+            - old
+            - maiden
         text:
           type: string
         family:
@@ -661,75 +396,40 @@ components:
             type: string
         period:
           $ref: '#/components/schemas/Period'
-    Communication:
+    Identifier:
       type: object
       properties:
-        language:
-          $ref: '#/components/schemas/CodeableConcept'
-        preferred:
-          type: boolean
-    Contact:
-      type: object
-      properties:
-        relationship:
-          type: array
-          items:
-            $ref: '#/components/schemas/CodeableConcept'
-        name:
-          $ref: '#/components/schemas/HumanName'
-        telecom:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContactPoint'
-        address:
-          $ref: '#/components/schemas/Address'
-        gender:
+        use:
           type: string
           enum:
-          - male
-          - female
-          - other
-          - unknown
-        organization:
-          $ref: '#/components/schemas/Reference'
-        period:
-          $ref: '#/components/schemas/Period'
-    Link:
-      type: object
-      properties:
-        other:
-          $ref: '#/components/schemas/Reference'
+            - usual
+            - official
+            - temp
+            - secondary
+            - old
         type:
-          type: string
-          enum:
-          - replaced-by
-          - replaces
-          - refer
-          - seealso
-    Meta:
-      type: object
-      properties:
-        versionId:
-          type: string
-        lastUpdated:
-          type: string
-          format: date-time
-        source:
+          $ref: '#/components/schemas/CodeableConcept'
+        system:
           type: string
           format: uri
-        profile:
-          type: array
-          items:
-            type: string
-            format: uri
-        security:
-          type: array
-          items:
-            $ref: '#/components/schemas/Coding'
-        tag:
-          type: array
-          items:
-            $ref: '#/components/schemas/Coding'
+        value:
+          type: string
+        period:
+          $ref: '#/components/schemas/Period'
+        assigner:
+          $ref: '#/components/schemas/Reference'
+    Reference:
+      type: object
+      properties:
+        reference:
+          type: string
+        type:
+          type: string
+          format: uri
+        identifier:
+          $ref: '#/components/schemas/Identifier'
+        display:
+          type: string
     Extension:
       type: object
       properties:
@@ -790,72 +490,69 @@ components:
           format: uuid
         valueAddress:
           $ref: '#/components/schemas/Address'
-        valueAge:
-          $ref: '#/components/schemas/Age'
-        valueAnnotation:
-          $ref: '#/components/schemas/Annotation'
         valueAttachment:
           $ref: '#/components/schemas/Attachment'
         valueCodeableConcept:
           $ref: '#/components/schemas/CodeableConcept'
-        valueCodeableReference:
-          $ref: '#/components/schemas/CodeableReference'
         valueCoding:
           $ref: '#/components/schemas/Coding'
         valueContactPoint:
           $ref: '#/components/schemas/ContactPoint'
-        valueCount:
-          $ref: '#/components/schemas/Count'
-        valueDistance:
-          $ref: '#/components/schemas/Distance'
-        valueDuration:
-          $ref: '#/components/schemas/Duration'
         valueHumanName:
           $ref: '#/components/schemas/HumanName'
         valueIdentifier:
           $ref: '#/components/schemas/Identifier'
-        valueMoney:
-          $ref: '#/components/schemas/Money'
         valuePeriod:
           $ref: '#/components/schemas/Period'
-        valueQuantity:
-          $ref: '#/components/schemas/Quantity'
-        valueRange:
-          $ref: '#/components/schemas/Range'
-        valueRatio:
-          $ref: '#/components/schemas/Ratio'
-        valueRatioRange:
-          $ref: '#/components/schemas/RatioRange'
         valueReference:
           $ref: '#/components/schemas/Reference'
-        valueSampledData:
-          $ref: '#/components/schemas/SampledData'
-        valueSignature:
-          $ref: '#/components/schemas/Signature'
-        valueTiming:
-          $ref: '#/components/schemas/Timing'
-        valueContactDetail:
-          $ref: '#/components/schemas/ContactDetail'
-        valueDataRequirement:
-          $ref: '#/components/schemas/DataRequirement'
-        valueExpression:
-          $ref: '#/components/schemas/Expression'
-        valueParameterDefinition:
-          $ref: '#/components/schemas/ParameterDefinition'
-        valueRelatedArtifact:
-          $ref: '#/components/schemas/RelatedArtifact'
-        valueTriggerDefinition:
-          $ref: '#/components/schemas/TriggerDefinition'
-        valueUsageContext:
-          $ref: '#/components/schemas/UsageContext'
-        valueAvailability:
-          $ref: '#/components/schemas/Availability'
-        valueExtendedContactDetail:
-          $ref: '#/components/schemas/ExtendedContactDetail'
-        valueDosage:
-          $ref: '#/components/schemas/Dosage'
         valueMeta:
           $ref: '#/components/schemas/Meta'
+    Contact:
+      type: object
+      properties:
+        relationship:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeableConcept'
+        name:
+          $ref: '#/components/schemas/HumanName'
+        telecom:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPoint'
+        address:
+          $ref: '#/components/schemas/Address'
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
+            - unknown
+        organization:
+          $ref: '#/components/schemas/Reference'
+        period:
+          $ref: '#/components/schemas/Period'
+    Communication:
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/CodeableConcept'
+        preferred:
+          type: boolean
+    Link:
+      type: object
+      properties:
+        other:
+          $ref: '#/components/schemas/Reference'
+        type:
+          type: string
+          enum:
+            - replaced-by
+            - replaces
+            - refer
+            - seealso
     Patient:
       type: object
       properties:
@@ -873,7 +570,7 @@ components:
         resourceType:
           type: string
           enum:
-          - patient
+            - patient
         identifier:
           type: array
           items:
@@ -938,185 +635,354 @@ components:
         id: '1234567890'
         active: true
         name:
-        - use: official
-          family: Smith
-          given:
-          - John
+          - use: official
+            family: Smith
+            given:
+              - John
         gender: male
         birthDate: '1980-01-01'
-    Age:
+    Issue:
       type: object
-      description: Minimal schema for Age based on FHIR R4
       properties:
-        exampleField:
+        severity:
           type: string
-          description: Example field for Age
-    Annotation:
+          enum:
+            - fatal
+            - error
+            - warning
+            - information
+            - success
+        code:
+          $ref: '#/components/schemas/Code'
+        details:
+          $ref: '#/components/schemas/CodeableConcept'
+        diagnostics:
+          type: string
+        location:
+          type: array
+          items:
+            type: string
+        expression:
+          type: array
+          items:
+            type: string
+    OperationOutcome:
       type: object
-      description: Minimal schema for Annotation based on FHIR R4
       properties:
-        exampleField:
+        resourceType:
           type: string
-          description: Example field for Annotation
-    CodeableReference:
+          enum:
+            - OperationOutcome
+        issue:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+      example:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: invalid
+            details:
+              text: Invalid patient ID
+            diagnostics: The provided ID does not match any patient record.
+            location:
+              - Patient.id
+            expression:
+              - Patient.id
+    Status:
       type: object
-      description: Minimal schema for CodeableReference based on FHIR R4
       properties:
-        exampleField:
+        status:
           type: string
-          description: Example field for CodeableReference
-    Count:
+          enum:
+            - UP
+            - DOWN
+            - DEGRADED
+        version:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        dependencies:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - UP
+              - DOWN
+    Ping:
       type: object
-      description: Minimal schema for Count based on FHIR R4
       properties:
-        exampleField:
+        message:
           type: string
-          description: Example field for Count
-    Distance:
-      type: object
-      description: Minimal schema for Distance based on FHIR R4
-      properties:
-        exampleField:
+        timestamp:
           type: string
-          description: Example field for Distance
-    Duration:
-      type: object
-      description: Minimal schema for Duration based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Duration
-    Money:
-      type: object
-      description: Minimal schema for Money based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Money
-    Quantity:
-      type: object
-      description: Minimal schema for Quantity based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Quantity
-    Range:
-      type: object
-      description: Minimal schema for Range based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Range
-    Ratio:
-      type: object
-      description: Minimal schema for Ratio based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Ratio
-    RatioRange:
-      type: object
-      description: Minimal schema for RatioRange based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for RatioRange
-    SampledData:
-      type: object
-      description: Minimal schema for SampledData based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for SampledData
-    Signature:
-      type: object
-      description: Minimal schema for Signature based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Signature
-    Timing:
-      type: object
-      description: Minimal schema for Timing based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Timing
-    ContactDetail:
-      type: object
-      description: Minimal schema for ContactDetail based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for ContactDetail
-    DataRequirement:
-      type: object
-      description: Minimal schema for DataRequirement based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for DataRequirement
-    Expression:
-      type: object
-      description: Minimal schema for Expression based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Expression
-    ParameterDefinition:
-      type: object
-      description: Minimal schema for ParameterDefinition based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for ParameterDefinition
-    RelatedArtifact:
-      type: object
-      description: Minimal schema for RelatedArtifact based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for RelatedArtifact
-    TriggerDefinition:
-      type: object
-      description: Minimal schema for TriggerDefinition based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for TriggerDefinition
-    UsageContext:
-      type: object
-      description: Minimal schema for UsageContext based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for UsageContext
-    Availability:
-      type: object
-      description: Minimal schema for Availability based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Availability
-    ExtendedContactDetail:
-      type: object
-      description: Minimal schema for ExtendedContactDetail based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for ExtendedContactDetail
-    Dosage:
-      type: object
-      description: Minimal schema for Dosage based on FHIR R4
-      properties:
-        exampleField:
-          type: string
-          description: Example field for Dosage
-security:
-- auth: []
-externalDocs:
-  description: HL7 FHIR Patient Resource
-  url: https://www.hl7.org/fhir/patient.html
-tags:
-- name: Patient
-  description: Operations related to patient demographics
+          format: date-time
+  examples:
+    JohnSmith:
+      summary: John Smith
+      value:
+        resourceType: Patient
+        id: '1234567890'
+        active: true
+        name:
+          - use: official
+            family: Smith
+            given:
+              - John
+        gender: male
+        birthDate: '1980-01-01'
+    SherlockHolmes:
+      summary: Sherlock Holmes
+      value:
+        resourceType: Patient
+        id: '1234567890'
+        active: true
+        name:
+          - use: official
+            family: Holmes
+            given:
+              - Sherlock
+        gender: male
+        birthDate: '1980-01-01'
+  responses:
+    PatientFound:
+      description: Patient found
+      headers:
+        ETag:
+          description: VersionId from patient object
+          schema:
+            type: string
+            example: W/"2"
+          example: W/"2"
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/Patient'
+          examples:
+            JohnSmith:
+              $ref: '#/components/examples/JohnSmith'
+            SherlockHolmes:
+              $ref: '#/components/examples/SherlockHolmes'
+    BadRequest:
+      description: Bad request
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            InvalidRequest:
+              summary: Invalid request
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: invalid
+                    details:
+                      text: Bad request due to malformed syntax
+                    diagnostics: Provided patient NHS ID is invalid.
+                    location:
+                      - Request.id
+                    expression:
+                      - Request.id
+    Unauthorized:
+      description: Unauthorised
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            MissingAuthorizationToken:
+              summary: Missing Authorization token
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: security
+                    details:
+                      text: Authentication required
+                    diagnostics: Missing authentication credentials.
+                    location:
+                      - Request.header.Authorization
+                    expression:
+                      - Request.header.Authorization
+            InvalidAuthorizationToken:
+              summary: Invalid Authorization token
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: security
+                    details:
+                      text: Authentication required
+                    diagnostics: Invalid authentication credentials.
+                    location:
+                      - Request.header.Authorization
+                    expression:
+                      - Request.header.Authorization
+    Forbidden:
+      description: Forbidden
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            MissingApiKey:
+              summary: Missing x-api-key header
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Access denied
+                    diagnostics: Missing x-api-key header.
+                    location:
+                      - Request.header.x-api-key
+                    expression:
+                      - Request.header.x-api-key
+            InvalidApiKey:
+              summary: Invalid x-api-key-header
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Access denied
+                    diagnostics: Invalid x-api-key header.
+                    location:
+                      - Request.header.x-api-key
+                    expression:
+                      - Request.header.x-api-key
+            MissingUserPermissions:
+              summary: Missing user permissions
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Access denied
+                    diagnostics: User does not have permission to access this resource.
+                    location:
+                      - Request.header.x-api-key
+                    expression:
+                      - Request.header.x-api-key
+    NotFound:
+      description: Patient not found
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            PatientNotFound:
+              summary: Patient not found
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-found
+                    details:
+                      text: Resource not found
+                    diagnostics: No patient record found for the provided ID.
+                    location:
+                      - Patient.id
+                    expression:
+                      - Patient.id
+    Timeout:
+      description: Timeout
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            Timeout:
+              summary: Server timeout
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: timeout
+                    details:
+                      text: Request timeout
+                    diagnostics: The server timed out while fulfilling the request.
+                    location:
+                      - Server
+                    expression:
+                      - Server
+    TooManyRequests:
+      description: Too Many Requests
+      headers:
+        Retry-After:
+          description: Indicates how long to wait before making a new request
+          schema:
+            type: integer
+            format: int32
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            RateLimitExceeded:
+              summary: Rate limit exceeded
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: too-many-requests
+                    details:
+                      text: Rate limit exceeded
+                    diagnostics: You have exceeded the number of allowed requests per minute.
+                    location:
+                      - Request
+                    expression:
+                      - Request
+    InternalError:
+      description: Internal error
+      content:
+        application/fhir+json:
+          schema:
+            $ref: '#/components/schemas/OperationOutcome'
+          examples:
+            InternalServerError:
+              summary: Server internal error
+              value:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: exception
+                    details:
+                      text: Internal server error
+                    diagnostics: An unexpected error occurred on the server.
+                    location:
+                      - Server
+                    expression:
+                      - Server
+    StatusOk:
+      description: API status information
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Status'
+          example:
+            status: UP
+            version: 0.0.1
+            timestamp: '2024-01-15T10:30:00Z'
+            dependencies:
+              database: UP
+              external_api: UP
+    PingOk:
+      description: Ping successful
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Ping'
+          example:
+            message: pong
+            timestamp: '2024-01-15T10:30:00Z'
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

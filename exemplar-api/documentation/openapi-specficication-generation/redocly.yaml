@@ -1,0 +1,15 @@
+apis:
+  patient-demographics@v0.0.1:
+    root: openapi.yaml
+
+rules:
+  no-unresolved-refs: error
+  no-unused-components: warn
+  operation-description: error
+  operation-operationId: error
+  operation-summary: error
+  operation-tag-defined: error
+  path-declaration-must-exist: error
+  path-not-include-query: error
+  path-parameters-defined: error
+  spec-components-invalid-map-name: error

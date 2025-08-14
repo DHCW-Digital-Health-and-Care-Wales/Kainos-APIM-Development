@@ -1,0 +1,20 @@
+description: Patient not found
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      PatientNotFound:
+        summary: Patient not found
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: not-found
+              details:
+                text: Resource not found
+              diagnostics: No patient record found for the provided ID.
+              location:
+                - Patient.id
+              expression:
+                - Patient.id

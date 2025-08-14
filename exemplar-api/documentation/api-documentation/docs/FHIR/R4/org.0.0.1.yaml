@@ -1,0 +1,1122 @@
+openapi: 3.0.4
+info:
+  title: Patient demographics API
+  description: 'Allows for management of patient demographics information.
+
+    ## Who can use this API?
+
+    Add information about who can apply and use this service.
+
+    ## Requesting access
+
+    To access this API, you must obtain an `x-api-key` from the developer portal.
+    Visit [https://example.com/developer](https://example.com/developer) to request
+    access and retrieve your key. Include the key in your request headers as follows:
+    </br>`x-api-key: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4`
+
+    ## Authentication and Authorization
+
+    Describe how to authenticate with the service and how the request is authorized.
+
+    In order to make a valid request you must provide a JWT token that includes relevant scopes as following header:
+    </br>`Authorization: Bearer <TOKEN>`
+
+    ## Roadmap
+
+    Include link to roadmap for planned API changes.
+
+    ## Service Level Agreements
+
+    This API is a platinum service, meaning it is operational and supported 24 hours a day, 365 days a year.
+
+    For more details, see service levels.
+
+    ## Rate Limiting
+
+    This API is rate-limited to 1 requests per minute. If the limit is exceeded, a
+    `429 Too Many Requests` response is returned with a `Retry-After` header.
+
+    ## Technology
+
+    This API is RESTful.
+    </br></br>
+
+    It conforms to the FHIR global standard for health care data exchange, specifically to FHIR R4 (v4.0.1), except that it does not support the capabilities interaction.
+    </br></br>
+
+    It includes some country-specific FHIR extensions, which are built against FHIR UK Core, specifically UK.core.r4 1.0.0.
+    </br></br>
+
+    You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
+
+    <li>resource names are capitalised and singular, for example /Patient not /patients</li>
+    <li>array names are singular, for example line not lines for address lines</li>
+    <li>data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an extension object</li>
+
+    
+    ## Network access
+    
+    This section should include information about how the API is exposed and if it is visible over the internet, or requires access to internal network.
+
+    ## Environments and testing
+
+    | Environment | Base URL              |
+
+    |-------------|-----------------------|
+
+    |Sandbox | https://sandbox.api.example.com/FHIR/R4/|
+
+    |UAT |	https://uat.api.example.com/FHIR/R4/|
+
+    |Production	| https://api.example.com/FHIR/R4/|
+
+
+    ### Sandbox testing
+    
+    Our sandbox environment:
+
+    <li>is for early developer testing</li>
+    <li>only covers a limited set of scenarios</li>
+    <li>is stateless, so does not actually persist any updates</li>
+    <li>is open access, so does not allow you to test authorisation</li>
+  
+
+    ### UAT
+
+    Our UAT environment:
+
+    <li>is for formal integration testing</li>
+    <li>is stateful, so persists updates</li>
+    <li>includes authorisation</li>
+
+    To test updating patient details, you must set up your own test data.
+    </br>
+
+    ### Production smoke testing
+    
+    You must not use real patient data for smoke testing in the production environment.
+    </br></br>
+
+    Rather, use our production test patient.
+
+
+    ## Error Codes
+
+    | Status | Code              | Description                          |
+
+    |--------|-------------------|--------------------------------------|
+
+    | 400    | invalid           | Malformed syntax                     |
+
+    | 401    | security          | Missing/invalid token                |
+
+    | 403    | forbidden         | Missing API key or permissions       |
+
+    | 404    | not-found         | Patient not found                    |
+
+    | 408    | timeout           | Server timeout                       |
+
+    | 429    | too-many-requests | Rate limit exceeded. Retry later.    |
+
+    | 500    | exception         | Internal server error                |
+
+
+    ## Versioning
+
+    This API is based on HL7 FHIR R4 specification. Future versions will be available
+    under `/FHIR/R5` or similar paths.'
+  version: 0.0.1
+  contact:
+    name: API Support
+    email: support@example.com
+    url: https://example.com/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://example.com/terms
+servers:
+- url: http://localhost:3000/FHIR/R4
+paths:
+  /Patient/{nhsNumber}:
+    get:
+      tags:
+      - Patient
+      operationId: getPatientByNhsId
+      summary: Lookup of a patient by a given NHS number
+      description: Returns a FHIR compliant Patient resource. More details can be
+        found in FHIR documentation at https://www.hl7.org/fhir/patient.html
+      parameters:
+      - $ref: '#/components/parameters/NhsNumber'
+      - $ref: '#/components/parameters/ApiKey'
+      responses:
+        200:
+          description: Patient found
+          headers:
+            ETag:
+              description: VersionId from patient object
+              schema:
+                type: string
+                example: W/"2"
+              example: W/"2"
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+              examples:
+                JohnSmith:
+                  summary: John Smith
+                  value:
+                    resourceType: Patient
+                    id: '1234567890'
+                    active: true
+                    name:
+                    - use: official
+                      family: Smith
+                      given:
+                      - John
+                    gender: male
+                    birthDate: '1980-01-01'
+                SherlockHolmes:
+                  summary: Sherlock Holmes
+                  value:
+                    resourceType: Patient
+                    id: '1234567890'
+                    active: true
+                    name:
+                    - use: official
+                      family: Holmes
+                      given:
+                      - Sherlock
+                    gender: male
+                    birthDate: '1980-01-01'
+        400:
+          description: Bad request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                InvalidRequest:
+                  summary: Invalid request
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: invalid
+                      details:
+                        text: Bad request due to malformed syntax
+                      diagnostics: Provided patient NHS ID is invalid.
+                      location:
+                      - Request.id
+                      expression:
+                      - Request.id
+        401:
+          description: Unauthorised
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                MissingAuthorizationToken:
+                  summary: Missing Authorization token
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: security
+                      details:
+                        text: Authentication required
+                      diagnostics: Missing authentication credentials.
+                      location:
+                      - Request.header.Authorization
+                      expression:
+                      - Request.header.Authorization
+                InvalidAuthorizationToken:
+                  summary: Invalid Authorization token
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: security
+                      details:
+                        text: Authentication required
+                      diagnostics: Invalid authentication credentials.
+                      location:
+                      - Request.header.Authorization
+                      expression:
+                      - Request.header.Authorization
+        403:
+          description: Forbidden
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                MissingApiKey:
+                  summary: Missing x-api-key header
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: forbidden
+                      details:
+                        text: Access denied
+                      diagnostics: Missing x-api-key header.
+                      location:
+                      - Request.header.x-api-key
+                      expression:
+                      - Request.header.x-api-key
+                InvalidApiKey:
+                  summary: Invalid x-api-key-header
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: forbidden
+                      details:
+                        text: Access denied
+                      diagnostics: Invalid x-api-key header.
+                      location:
+                      - Request.header.x-api-key
+                      expression:
+                      - Request.header.x-api-key
+                MissingUserPermissions:
+                  summary: Missing user permissions
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: forbidden
+                      details:
+                        text: Access denied
+                      diagnostics: User does not have permission to access this resource.
+                      location:
+                      - Request.header.x-api-key
+                      expression:
+                      - Request.header.x-api-key
+        404:
+          description: Patient not found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                PatientNotFound:
+                  summary: Patient not found
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: not-found
+                      details:
+                        text: Resource not found
+                      diagnostics: No patient record found for the provided ID.
+                      location:
+                      - Patient.id
+                      expression:
+                      - Patient.id
+        408:
+          description: Timeout
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                Timeout:
+                  summary: Server timeout
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: timeout
+                      details:
+                        text: Request timeout
+                      diagnostics: The server timed out while fulfilling the request.
+                      location:
+                      - Server
+                      expression:
+                      - Server
+        429:
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Indicates how long to wait before making a new request
+              schema:
+                type: integer
+                format: int32
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                RateLimitExceeded:
+                  summary: Rate limit exceeded
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: too-many-requests
+                      details:
+                        text: Rate limit exceeded
+                      diagnostics: You have exceeded the number of allowed requests
+                        per minute.
+                      location:
+                      - Request
+                      expression:
+                      - Request
+        500:
+          description: Internal error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              examples:
+                InternalServerError:
+                  summary: Server internal error
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                    - severity: error
+                      code: exception
+                      details:
+                        text: Internal server error
+                      diagnostics: An unexpected error occurred on the server.
+                      location:
+                      - Server
+                      expression:
+                      - Server
+      security:
+      - auth: []
+components:
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    NhsNumber:
+      required: true
+      name: nhsNumber
+      in: path
+      description: NHS number used for patient search
+      schema:
+        type: string
+      example: '1234567890'
+    ApiKey:
+      name: x-api-key
+      in: header
+      description: API key required for calling the endpoints
+      schema:
+        type: string
+        example: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4
+      example: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4
+  schemas:
+    Issue:
+      type: object
+      properties:
+        severity:
+          type: string
+          enum:
+          - fatal
+          - error
+          - warning
+          - information
+          - success
+        code:
+          $ref: '#/components/schemas/Code'
+        details:
+          $ref: '#/components/schemas/CodeableConcept'
+        diagnostics:
+          type: string
+        location:
+          type: array
+          items:
+            type: string
+        expression:
+          type: array
+          items:
+            type: string
+    OperationOutcome:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          enum:
+          - OperationOutcome
+        issue:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+      example:
+        resourceType: OperationOutcome
+        issue:
+        - severity: error
+          code: invalid
+          details:
+            text: Invalid patient ID
+          diagnostics: The provided ID does not match any patient record.
+          location:
+          - Patient.id
+          expression:
+          - Patient.id
+    Code:
+      type: string
+      pattern: ^[^\s]+( [^\s]+)*$
+      example: C
+    Coding:
+      type: object
+      properties:
+        system:
+          type: string
+          format: uri
+        version:
+          type: string
+        code:
+          $ref: '#/components/schemas/Code'
+        display:
+          type: string
+        userSelected:
+          type: boolean
+    CodeableConcept:
+      type: object
+      properties:
+        coding:
+          type: array
+          items:
+            $ref: '#/components/schemas/Coding'
+        text:
+          type: string
+    Attachment:
+      type: object
+      properties:
+        contentType:
+          $ref: '#/components/schemas/Code'
+        language:
+          $ref: '#/components/schemas/Code'
+        data:
+          type: string
+          format: byte
+        url:
+          type: string
+          format: uri
+        size:
+          type: integer
+        hash:
+          type: string
+          format: byte
+        title:
+          type: string
+        creation:
+          type: string
+          format: date-time
+        height:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 0
+        frames:
+          type: integer
+          minimum: 0
+        duration:
+          type: number
+          format: double
+        pages:
+          type: integer
+          minimum: 0
+    Period:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+    Reference:
+      type: object
+      properties:
+        reference:
+          type: string
+        type:
+          type: string
+          format: uri
+        identifier:
+          $ref: '#/components/schemas/Identifier'
+        display:
+          type: string
+    Address:
+      type: object
+      properties:
+        use:
+          type: string
+          enum:
+          - home
+          - work
+          - temp
+          - old
+          - billing
+        type:
+          type: string
+          enum:
+          - postal
+          - physical
+          - both
+        text:
+          type: string
+        line:
+          type: array
+          items:
+            type: string
+        city:
+          type: string
+        district:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        period:
+          $ref: '#/components/schemas/Period'
+    ContactPoint:
+      type: object
+      properties:
+        system:
+          type: string
+          enum:
+          - phone
+          - fax
+          - email
+          - pager
+          - url
+          - sms
+          - other
+        value:
+          type: string
+        use:
+          type: string
+          enum:
+          - home
+          - work
+          - temp
+          - old
+          - mobile
+        rank:
+          type: integer
+          minimum: 0
+        period:
+          $ref: '#/components/schemas/Period'
+    Identifier:
+      type: object
+      properties:
+        use:
+          type: string
+          enum:
+          - usual
+          - official
+          - temp
+          - secondary
+          - old
+        type:
+          $ref: '#/components/schemas/CodeableConcept'
+        system:
+          type: string
+          format: uri
+        value:
+          type: string
+        period:
+          $ref: '#/components/schemas/Period'
+        assigner:
+          $ref: '#/components/schemas/Reference'
+    HumanName:
+      type: object
+      properties:
+        use:
+          type: string
+          enum:
+          - usual
+          - official
+          - temp
+          - nickname
+          - anonymous
+          - old
+          - maiden
+        text:
+          type: string
+        family:
+          type: string
+        given:
+          type: array
+          items:
+            type: string
+        prefix:
+          type: array
+          items:
+            type: string
+        suffix:
+          type: array
+          items:
+            type: string
+        period:
+          $ref: '#/components/schemas/Period'
+    Communication:
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/CodeableConcept'
+        preferred:
+          type: boolean
+    Contact:
+      type: object
+      properties:
+        relationship:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeableConcept'
+        name:
+          $ref: '#/components/schemas/HumanName'
+        telecom:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPoint'
+        address:
+          $ref: '#/components/schemas/Address'
+        gender:
+          type: string
+          enum:
+          - male
+          - female
+          - other
+          - unknown
+        organization:
+          $ref: '#/components/schemas/Reference'
+        period:
+          $ref: '#/components/schemas/Period'
+    Link:
+      type: object
+      properties:
+        other:
+          $ref: '#/components/schemas/Reference'
+        type:
+          type: string
+          enum:
+          - replaced-by
+          - replaces
+          - refer
+          - seealso
+    Meta:
+      type: object
+      properties:
+        versionId:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        source:
+          type: string
+          format: uri
+        profile:
+          type: array
+          items:
+            type: string
+            format: uri
+        security:
+          type: array
+          items:
+            $ref: '#/components/schemas/Coding'
+        tag:
+          type: array
+          items:
+            $ref: '#/components/schemas/Coding'
+    Extension:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        valueBase64Binary:
+          type: string
+          format: byte
+        valueBoolean:
+          type: boolean
+        valueCanonical:
+          type: string
+          format: uri
+        valueCode:
+          $ref: '#/components/schemas/Code'
+        valueDate:
+          type: string
+          format: date
+        valueDateTime:
+          type: string
+          format: date-time
+        valueDecimal:
+          type: number
+          format: decimal
+        valueId:
+          type: string
+        valueInstant:
+          type: string
+          format: date-time
+        valueInteger:
+          type: integer
+        valueInteger64:
+          type: integer
+        valueMarkdown:
+          type: string
+        valueOid:
+          type: string
+        valuePositiveInt:
+          type: integer
+          minimum: 0
+        valueString:
+          type: string
+        valueTime:
+          type: string
+          format: time
+        valueUnsignedInt:
+          type: integer
+          minimum: 0
+        valueUri:
+          type: string
+          format: uri
+        valueUrl:
+          type: string
+          format: url
+        valueUuid:
+          type: string
+          format: uuid
+        valueAddress:
+          $ref: '#/components/schemas/Address'
+        valueAge:
+          $ref: '#/components/schemas/Age'
+        valueAnnotation:
+          $ref: '#/components/schemas/Annotation'
+        valueAttachment:
+          $ref: '#/components/schemas/Attachment'
+        valueCodeableConcept:
+          $ref: '#/components/schemas/CodeableConcept'
+        valueCodeableReference:
+          $ref: '#/components/schemas/CodeableReference'
+        valueCoding:
+          $ref: '#/components/schemas/Coding'
+        valueContactPoint:
+          $ref: '#/components/schemas/ContactPoint'
+        valueCount:
+          $ref: '#/components/schemas/Count'
+        valueDistance:
+          $ref: '#/components/schemas/Distance'
+        valueDuration:
+          $ref: '#/components/schemas/Duration'
+        valueHumanName:
+          $ref: '#/components/schemas/HumanName'
+        valueIdentifier:
+          $ref: '#/components/schemas/Identifier'
+        valueMoney:
+          $ref: '#/components/schemas/Money'
+        valuePeriod:
+          $ref: '#/components/schemas/Period'
+        valueQuantity:
+          $ref: '#/components/schemas/Quantity'
+        valueRange:
+          $ref: '#/components/schemas/Range'
+        valueRatio:
+          $ref: '#/components/schemas/Ratio'
+        valueRatioRange:
+          $ref: '#/components/schemas/RatioRange'
+        valueReference:
+          $ref: '#/components/schemas/Reference'
+        valueSampledData:
+          $ref: '#/components/schemas/SampledData'
+        valueSignature:
+          $ref: '#/components/schemas/Signature'
+        valueTiming:
+          $ref: '#/components/schemas/Timing'
+        valueContactDetail:
+          $ref: '#/components/schemas/ContactDetail'
+        valueDataRequirement:
+          $ref: '#/components/schemas/DataRequirement'
+        valueExpression:
+          $ref: '#/components/schemas/Expression'
+        valueParameterDefinition:
+          $ref: '#/components/schemas/ParameterDefinition'
+        valueRelatedArtifact:
+          $ref: '#/components/schemas/RelatedArtifact'
+        valueTriggerDefinition:
+          $ref: '#/components/schemas/TriggerDefinition'
+        valueUsageContext:
+          $ref: '#/components/schemas/UsageContext'
+        valueAvailability:
+          $ref: '#/components/schemas/Availability'
+        valueExtendedContactDetail:
+          $ref: '#/components/schemas/ExtendedContactDetail'
+        valueDosage:
+          $ref: '#/components/schemas/Dosage'
+        valueMeta:
+          $ref: '#/components/schemas/Meta'
+    Patient:
+      type: object
+      properties:
+        id:
+          type: string
+        meta:
+          $ref: '#/components/schemas/Meta'
+        implicitRules:
+          type: string
+          format: uri
+        language:
+          $ref: '#/components/schemas/Code'
+        extension:
+          $ref: '#/components/schemas/Extension'
+        resourceType:
+          type: string
+          enum:
+          - patient
+        identifier:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+        active:
+          type: boolean
+          example: true
+        name:
+          type: array
+          items:
+            $ref: '#/components/schemas/HumanName'
+        telecom:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPoint'
+        gender:
+          $ref: '#/components/schemas/Code'
+        birthDate:
+          type: string
+          format: date
+        deceasedBoolean:
+          type: boolean
+        deceasedDateTime:
+          type: string
+          format: date-time
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        maritalStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeableConcept'
+        multipleBirthBoolean:
+          type: boolean
+        multipleBirthInteger:
+          type: integer
+        photo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        contact:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        communication:
+          type: array
+          items:
+            $ref: '#/components/schemas/Communication'
+        generalPractitioner:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+        managingOrganization:
+          $ref: '#/components/schemas/Reference'
+        link:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+      example:
+        resourceType: Patient
+        id: '1234567890'
+        active: true
+        name:
+        - use: official
+          family: Smith
+          given:
+          - John
+        gender: male
+        birthDate: '1980-01-01'
+    Age:
+      type: object
+      description: Minimal schema for Age based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Age
+    Annotation:
+      type: object
+      description: Minimal schema for Annotation based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Annotation
+    CodeableReference:
+      type: object
+      description: Minimal schema for CodeableReference based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for CodeableReference
+    Count:
+      type: object
+      description: Minimal schema for Count based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Count
+    Distance:
+      type: object
+      description: Minimal schema for Distance based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Distance
+    Duration:
+      type: object
+      description: Minimal schema for Duration based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Duration
+    Money:
+      type: object
+      description: Minimal schema for Money based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Money
+    Quantity:
+      type: object
+      description: Minimal schema for Quantity based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Quantity
+    Range:
+      type: object
+      description: Minimal schema for Range based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Range
+    Ratio:
+      type: object
+      description: Minimal schema for Ratio based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Ratio
+    RatioRange:
+      type: object
+      description: Minimal schema for RatioRange based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for RatioRange
+    SampledData:
+      type: object
+      description: Minimal schema for SampledData based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for SampledData
+    Signature:
+      type: object
+      description: Minimal schema for Signature based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Signature
+    Timing:
+      type: object
+      description: Minimal schema for Timing based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Timing
+    ContactDetail:
+      type: object
+      description: Minimal schema for ContactDetail based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for ContactDetail
+    DataRequirement:
+      type: object
+      description: Minimal schema for DataRequirement based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for DataRequirement
+    Expression:
+      type: object
+      description: Minimal schema for Expression based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Expression
+    ParameterDefinition:
+      type: object
+      description: Minimal schema for ParameterDefinition based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for ParameterDefinition
+    RelatedArtifact:
+      type: object
+      description: Minimal schema for RelatedArtifact based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for RelatedArtifact
+    TriggerDefinition:
+      type: object
+      description: Minimal schema for TriggerDefinition based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for TriggerDefinition
+    UsageContext:
+      type: object
+      description: Minimal schema for UsageContext based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for UsageContext
+    Availability:
+      type: object
+      description: Minimal schema for Availability based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Availability
+    ExtendedContactDetail:
+      type: object
+      description: Minimal schema for ExtendedContactDetail based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for ExtendedContactDetail
+    Dosage:
+      type: object
+      description: Minimal schema for Dosage based on FHIR R4
+      properties:
+        exampleField:
+          type: string
+          description: Example field for Dosage
+security:
+- auth: []
+externalDocs:
+  description: HL7 FHIR Patient Resource
+  url: https://www.hl7.org/fhir/patient.html
+tags:
+- name: Patient
+  description: Operations related to patient demographics

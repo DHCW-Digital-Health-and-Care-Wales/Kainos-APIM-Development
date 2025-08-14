@@ -1,0 +1,72 @@
+securitySchemes:
+  auth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+parameters:
+  NhsNumber:
+    $ref: './parameters/NhsNumber.yaml'
+  ApiKey:
+    $ref: './parameters/ApiKey.yaml'
+responses:
+  PatientFound:
+    $ref: './responses/PatientFound.yaml'
+  BadRequest:
+    $ref: './responses/BadRequest.yaml'
+  Unauthorized:
+    $ref: './responses/Unauthorized.yaml'
+  Forbidden:
+    $ref: './responses/Forbidden.yaml'
+  NotFound:
+    $ref: './responses/NotFound.yaml'
+  Timeout:
+    $ref: './responses/Timeout.yaml'
+  TooManyRequests:
+    $ref: './responses/TooManyRequests.yaml'
+  InternalError:
+    $ref: './responses/InternalError.yaml'
+  StatusOk:
+    $ref: './responses/StatusOk.yaml'
+  PingOk:
+    $ref: './responses/PingOk.yaml'
+schemas:
+  Patient:
+    $ref: './schemas/Patient.yaml'
+  OperationOutcome:
+    $ref: './schemas/OperationOutcome.yaml'
+  Issue:
+    $ref: './schemas/Issue.yaml'
+  Code:
+    $ref: './schemas/Code.yaml'
+  Coding:
+    $ref: './schemas/Coding.yaml'
+  CodeableConcept:
+    $ref: './schemas/CodeableConcept.yaml'
+  Attachment:
+    $ref: './schemas/Attachment.yaml'
+  Period:
+    $ref: './schemas/Period.yaml'
+  Reference:
+    $ref: './schemas/Reference.yaml'
+  Address:
+    $ref: './schemas/Address.yaml'
+  ContactPoint:
+    $ref: './schemas/ContactPoint.yaml'
+  Identifier:
+    $ref: './schemas/Identifier.yaml'
+  HumanName:
+    $ref: './schemas/HumanName.yaml'
+  Communication:
+    $ref: './schemas/Communication.yaml'
+  Contact:
+    $ref: './schemas/Contact.yaml'
+  Link:
+    $ref: './schemas/Link.yaml'
+  Meta:
+    $ref: './schemas/Meta.yaml'
+  Extension:
+    $ref: './schemas/Extension.yaml'
+  Status:
+    $ref: './schemas/Status.yaml'
+  Ping:
+    $ref: './schemas/Ping.yaml'

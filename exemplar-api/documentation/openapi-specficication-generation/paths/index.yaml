@@ -1,0 +1,6 @@
+/Patient/{nhsNumber}:
+  $ref: './patient.yaml'
+/_status:
+  $ref: './status.yaml'
+/_ping:
+  $ref: './ping.yaml'

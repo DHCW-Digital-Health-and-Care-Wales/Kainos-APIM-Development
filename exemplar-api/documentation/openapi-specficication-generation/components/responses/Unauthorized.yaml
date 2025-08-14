@@ -1,0 +1,34 @@
+description: Unauthorised
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      MissingAuthorizationToken:
+        summary: Missing Authorization token
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: security
+              details:
+                text: Authentication required
+              diagnostics: Missing authentication credentials.
+              location:
+                - Request.header.Authorization
+              expression:
+                - Request.header.Authorization
+      InvalidAuthorizationToken:
+        summary: Invalid Authorization token
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: security
+              details:
+                text: Authentication required
+              diagnostics: Invalid authentication credentials.
+              location:
+                - Request.header.Authorization
+              expression:
+                - Request.header.Authorization

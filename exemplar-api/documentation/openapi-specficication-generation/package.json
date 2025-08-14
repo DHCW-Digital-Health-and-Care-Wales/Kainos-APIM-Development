@@ -1,0 +1,14 @@
+{
+  "name": "patient-demographics-api-spec",
+  "version": "0.0.1",
+  "description": "OpenAPI specification for Patient Demographics API",
+  "scripts": {
+    "lint": "redocly lint",
+    "bundle": "VERSION=$(node -p \"require('./package.json').version\") && redocly bundle openapi.yaml --output ../api-documentation/docs/FHIR/R4/$VERSION.yaml",
+    "preview": "redocly preview-docs",
+    "build-docs": "redocly build-docs --output dist/docs"
+  },
+  "devDependencies": {
+    "@redocly/cli": "^1.0.0"
+  }
+}
