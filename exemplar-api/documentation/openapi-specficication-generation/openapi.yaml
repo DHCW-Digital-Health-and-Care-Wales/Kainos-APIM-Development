@@ -1,0 +1,19 @@
+openapi: 3.0.4
+info:
+  $ref: './info/info.yaml'
+servers:
+  - url: http://localhost:3000/FHIR/R4
+paths:
+  $ref: './paths/index.yaml'
+components:
+  $ref: './components/index.yaml'
+security:
+  - auth: []
+externalDocs:
+  description: HL7 FHIR Patient Resource
+  url: https://www.hl7.org/fhir/patient.html
+tags:
+  - name: Patient
+    description: Operations related to patient demographics
+  - name: Health
+    description: Health check and status endpoints

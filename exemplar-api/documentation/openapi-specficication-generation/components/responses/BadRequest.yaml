@@ -1,0 +1,20 @@
+description: Bad request
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      InvalidRequest:
+        summary: Invalid request
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: invalid
+              details:
+                text: Bad request due to malformed syntax
+              diagnostics: Provided patient NHS ID is invalid.
+              location:
+                - Request.id
+              expression:
+                - Request.id

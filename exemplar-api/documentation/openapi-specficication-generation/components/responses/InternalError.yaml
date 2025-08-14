@@ -1,0 +1,20 @@
+description: Internal error
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      InternalServerError:
+        summary: Server internal error
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: exception
+              details:
+                text: Internal server error
+              diagnostics: An unexpected error occurred on the server.
+              location:
+                - Server
+              expression:
+                - Server

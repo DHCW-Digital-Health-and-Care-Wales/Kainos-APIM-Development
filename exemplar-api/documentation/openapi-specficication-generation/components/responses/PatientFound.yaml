@@ -1,0 +1,17 @@
+description: Patient found
+headers:
+  ETag:
+    description: VersionId from patient object
+    schema:
+      type: string
+      example: W/"2"
+    example: W/"2"
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/Patient.yaml'
+    examples:
+      JohnSmith:
+        $ref: '../examples/JohnSmith.yaml'
+      SherlockHolmes:
+        $ref: '../examples/SherlockHolmes.yaml'

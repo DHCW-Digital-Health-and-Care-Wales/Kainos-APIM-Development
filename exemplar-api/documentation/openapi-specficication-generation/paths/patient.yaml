@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Patient
+  operationId: getPatientByNhsId
+  summary: Lookup of a patient by a given NHS number
+  description: Returns a FHIR compliant Patient resource. More details can be found in FHIR documentation at https://www.hl7.org/fhir/patient.html
+  parameters:
+    - $ref: '../components/parameters/NhsNumber.yaml'
+    - $ref: '../components/parameters/ApiKey.yaml'
+  responses:
+    '200':
+      $ref: '../components/responses/PatientFound.yaml'
+    '400':
+      $ref: '../components/responses/BadRequest.yaml'
+    '401':
+      $ref: '../components/responses/Unauthorized.yaml'
+    '403':
+      $ref: '../components/responses/Forbidden.yaml'
+    '404':
+      $ref: '../components/responses/NotFound.yaml'
+    '408':
+      $ref: '../components/responses/Timeout.yaml'
+    '429':
+      $ref: '../components/responses/TooManyRequests.yaml'
+    '500':
+      $ref: '../components/responses/InternalError.yaml'
+  security:
+    - auth: []

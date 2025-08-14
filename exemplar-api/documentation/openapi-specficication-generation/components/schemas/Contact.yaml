@@ -1,0 +1,25 @@
+type: object
+properties:
+  relationship:
+    type: array
+    items:
+      $ref: './CodeableConcept.yaml'
+  name:
+    $ref: './HumanName.yaml'
+  telecom:
+    type: array
+    items:
+      $ref: './ContactPoint.yaml'
+  address:
+    $ref: './Address.yaml'
+  gender:
+    type: string
+    enum:
+      - male
+      - female
+      - other
+      - unknown
+  organization:
+    $ref: './Reference.yaml'
+  period:
+    $ref: './Period.yaml'

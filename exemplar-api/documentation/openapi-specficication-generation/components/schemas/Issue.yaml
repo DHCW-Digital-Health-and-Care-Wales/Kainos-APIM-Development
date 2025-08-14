@@ -1,0 +1,24 @@
+type: object
+properties:
+  severity:
+    type: string
+    enum:
+      - fatal
+      - error
+      - warning
+      - information
+      - success
+  code:
+    $ref: './Code.yaml'
+  details:
+    $ref: './CodeableConcept.yaml'
+  diagnostics:
+    type: string
+  location:
+    type: array
+    items:
+      type: string
+  expression:
+    type: array
+    items:
+      type: string

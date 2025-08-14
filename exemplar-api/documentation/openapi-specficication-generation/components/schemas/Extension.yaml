@@ -1,0 +1,77 @@
+type: object
+properties:
+  url:
+    type: string
+    format: uri
+  valueBase64Binary:
+    type: string
+    format: byte
+  valueBoolean:
+    type: boolean
+  valueCanonical:
+    type: string
+    format: uri
+  valueCode:
+    $ref: './Code.yaml'
+  valueDate:
+    type: string
+    format: date
+  valueDateTime:
+    type: string
+    format: date-time
+  valueDecimal:
+    type: number
+    format: decimal
+  valueId:
+    type: string
+  valueInstant:
+    type: string
+    format: date-time
+  valueInteger:
+    type: integer
+  valueInteger64:
+    type: integer
+  valueMarkdown:
+    type: string
+  valueOid:
+    type: string
+  valuePositiveInt:
+    type: integer
+    minimum: 0
+  valueString:
+    type: string
+  valueTime:
+    type: string
+    format: time
+  valueUnsignedInt:
+    type: integer
+    minimum: 0
+  valueUri:
+    type: string
+    format: uri
+  valueUrl:
+    type: string
+    format: url
+  valueUuid:
+    type: string
+    format: uuid
+  valueAddress:
+    $ref: './Address.yaml'
+  valueAttachment:
+    $ref: './Attachment.yaml'
+  valueCodeableConcept:
+    $ref: './CodeableConcept.yaml'
+  valueCoding:
+    $ref: './Coding.yaml'
+  valueContactPoint:
+    $ref: './ContactPoint.yaml'
+  valueHumanName:
+    $ref: './HumanName.yaml'
+  valueIdentifier:
+    $ref: './Identifier.yaml'
+  valuePeriod:
+    $ref: './Period.yaml'
+  valueReference:
+    $ref: './Reference.yaml'
+  valueMeta:
+    $ref: './Meta.yaml'
