@@ -21,7 +21,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<PatientBuilder>();
 builder.Services.AddSingleton<INhsIdValidator, NhsIdValidator>();
 builder.Services.AddSingleton<IPatientService, MpiPatientService>();
-builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();

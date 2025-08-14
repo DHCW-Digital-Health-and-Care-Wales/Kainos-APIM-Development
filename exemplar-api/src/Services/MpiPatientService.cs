@@ -51,7 +51,7 @@ public class MpiPatientService : IPatientService
         if (!_nhsIdValidator.IsValid(id))
 		{
 			_logger.LogError("Invalid NHS number: {NhsNumber}", id);
-            throw new InvalidDataException();
+            throw new BadRequestException();
 		}
 		_logger.LogDebug("Patient NHS number: {NhsNumber} is valid", id);
 
