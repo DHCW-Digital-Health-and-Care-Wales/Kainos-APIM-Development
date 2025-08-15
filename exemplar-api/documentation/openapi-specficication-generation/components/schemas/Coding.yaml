@@ -1,0 +1,13 @@
+type: object
+properties:
+  system:
+    type: string
+    format: uri
+  version:
+    type: string
+  code:
+    $ref: './Code.yaml'
+  display:
+    type: string
+  userSelected:
+    type: boolean

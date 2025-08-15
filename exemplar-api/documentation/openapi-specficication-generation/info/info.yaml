@@ -1,0 +1,123 @@
+title: Patient demographics API
+description: |
+  Allows for management of patient demographics information.
+
+  ## Who can use this API?
+
+  Add information about who can apply and use this service.
+
+  ## Requesting access
+
+  To access this API, you must obtain an `x-api-key` from the developer portal.
+  Visit [https://example.com/developer](https://example.com/developer) to request
+  access and retrieve your key. Include the key in your request headers as follows:
+  </br>`x-api-key: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4`
+
+  ## Authentication and Authorization
+
+  Describe how to authenticate with the service and how the request is authorized.
+
+  In order to make a valid request you must provide a JWT token that includes relevant scopes as following header:
+  </br>`Authorization: Bearer <TOKEN>`
+
+  ## Roadmap
+
+  Include link to roadmap for planned API changes.
+
+  ## Service Level Agreements
+
+  This API is a platinum service, meaning it is operational and supported 24 hours a day, 365 days a year.
+
+  For more details, see service levels.
+
+  ## Rate Limiting
+
+  This API is rate-limited to 1 requests per minute. If the limit is exceeded, a
+  `429 Too Many Requests` response is returned with a `Retry-After` header.
+
+  ## Technology
+
+  This API is RESTful.
+  </br></br>
+
+  It conforms to the FHIR global standard for health care data exchange, specifically to FHIR R4 (v4.0.1), except that it does not support the capabilities interaction.
+  </br></br>
+
+  It includes some country-specific FHIR extensions, which are built against FHIR UK Core, specifically UK.core.r4 1.0.0.
+  </br></br>
+
+  You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
+
+  <li>resource names are capitalised and singular, for example /Patient not /patients</li>
+  <li>array names are singular, for example line not lines for address lines</li>
+  <li>data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an extension object</li>
+
+  
+  ## Network access
+  
+  This section should include information about how the API is exposed and if it is visible over the internet, or requires access to internal network.
+
+  ## Environments and testing
+
+  | Environment | Base URL |
+  |-------------|----------|
+  | Sandbox | https://sandbox.api.example.com/FHIR/R4/ |
+  | UAT | https://uat.api.example.com/FHIR/R4/ |
+  | Production | https://api.example.com/FHIR/R4/ |
+
+
+  ### Sandbox testing
+  
+  Our sandbox environment:
+
+  <li>is for early developer testing</li>
+  <li>only covers a limited set of scenarios</li>
+  <li>is stateless, so does not actually persist any updates</li>
+  <li>is open access, so does not allow you to test authorisation</li>
+
+
+  ### UAT
+
+  Our UAT environment:
+
+  <li>is for formal integration testing</li>
+  <li>is stateful, so persists updates</li>
+  <li>includes authorisation</li>
+
+  To test updating patient details, you must set up your own test data.
+  </br>
+
+  ### Production smoke testing
+  
+  You must not use real patient data for smoke testing in the production environment.
+  </br></br>
+
+  Rather, use our production test patient.
+
+
+  ## Error Codes
+
+  | Status | Code | Description |
+  |--------|------|-------------|
+  | 400 | invalid | Malformed syntax |
+  | 401 | security | Missing/invalid token |
+  | 403 | forbidden | Missing API key or permissions |
+  | 404 | not-found | Patient not found |
+  | 408 | timeout | Server timeout |
+  | 429 | too-many-requests | Rate limit exceeded. Retry later. |
+  | 500 | exception | Internal server error |
+
+
+  ## Versioning
+
+  This API is based on HL7 FHIR R4 specification. Future versions will be available
+  under `/FHIR/R5` or similar paths.
+version: 0.0.1
+contact:
+  name: API Support
+  email: support@example.com
+  url: https://example.com/support
+license:
+  name: MIT
+  url: https://opensource.org/licenses/MIT
+termsOfService: https://example.com/terms

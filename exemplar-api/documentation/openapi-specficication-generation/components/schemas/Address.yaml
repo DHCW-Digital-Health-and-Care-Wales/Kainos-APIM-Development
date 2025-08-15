@@ -1,0 +1,34 @@
+type: object
+properties:
+  use:
+    type: string
+    enum:
+      - home
+      - work
+      - temp
+      - old
+      - billing
+  type:
+    type: string
+    enum:
+      - postal
+      - physical
+      - both
+  text:
+    type: string
+  line:
+    type: array
+    items:
+      type: string
+  city:
+    type: string
+  district:
+    type: string
+  state:
+    type: string
+  postalCode:
+    type: string
+  country:
+    type: string
+  period:
+    $ref: './Period.yaml'

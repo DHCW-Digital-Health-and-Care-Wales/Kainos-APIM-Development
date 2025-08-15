@@ -6,10 +6,14 @@ using Hl7.Fhir.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace UnitTests.Controllers.FHIR.R4
+namespace UnitTests.Controllers.FHIR.R4;
+
+public class PatientControllerTests
 {
     public sealed class PatientControllerTests
     {
+        _patientService = new Mock<IPatientService>();
+        _logger = new Mock<ILogger<PatientController>>();
 
         private readonly IPatientService _patientService;
         private readonly Mock<IConfiguration> _configurationMock;
@@ -105,4 +109,24 @@ namespace UnitTests.Controllers.FHIR.R4
         }
 
     }
+
+    [Fact]
+    public void GetByNHSNumber_ShouldReturnBuiltPatient_WhenIdIsValid()
+    {
+        // Arrange
+        string apiKey = "testkey";
+        string authorization = "auth";
+        string validId = "4857773457";
+
+        _patientService.Setup(x => x.GetByNHSNumber(validId)).Returns(new Patient() { Id= validId });
+        
+        ActionResult<Patient> response = _controller.GetByNhsId(apiKey, authorization, validId);
+
+        Assert.NotNull(response);
+        Assert.NotNull(response.Result);
+        Patient p = TestUtility.GetObjectResultContent<Patient>(response);
+        Assert.True(p.Id == validId);
+    }
+
+
 }

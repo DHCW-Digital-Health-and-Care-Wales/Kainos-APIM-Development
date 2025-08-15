@@ -1,0 +1,23 @@
+type: object
+properties:
+  versionId:
+    type: string
+  lastUpdated:
+    type: string
+    format: date-time
+  source:
+    type: string
+    format: uri
+  profile:
+    type: array
+    items:
+      type: string
+      format: uri
+  security:
+    type: array
+    items:
+      $ref: './Coding.yaml'
+  tag:
+    type: array
+    items:
+      $ref: './Coding.yaml'

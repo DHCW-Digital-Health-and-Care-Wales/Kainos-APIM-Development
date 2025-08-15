@@ -1,0 +1,27 @@
+type: object
+properties:
+  system:
+    type: string
+    enum:
+      - phone
+      - fax
+      - email
+      - pager
+      - url
+      - sms
+      - other
+  value:
+    type: string
+  use:
+    type: string
+    enum:
+      - home
+      - work
+      - temp
+      - old
+      - mobile
+  rank:
+    type: integer
+    minimum: 0
+  period:
+    $ref: './Period.yaml'

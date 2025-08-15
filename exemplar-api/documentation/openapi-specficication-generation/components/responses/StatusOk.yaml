@@ -1,0 +1,12 @@
+description: API status information
+content:
+  application/json:
+    schema:
+      $ref: '../schemas/Status.yaml'
+    example:
+      status: "UP"
+      version: "0.0.1"
+      timestamp: "2024-01-15T10:30:00Z"
+      dependencies:
+        database: "UP"
+        external_api: "UP"

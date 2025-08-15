@@ -1,0 +1,9 @@
+get:
+  tags:
+    - Health
+  operationId: getStatus
+  summary: Get API status and health information
+  description: Returns detailed status information about the API and its dependencies
+  responses:
+    '200':
+      $ref: '../components/responses/StatusOk.yaml'

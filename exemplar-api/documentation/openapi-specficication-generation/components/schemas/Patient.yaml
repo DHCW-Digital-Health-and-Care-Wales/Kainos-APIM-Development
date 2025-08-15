@@ -1,0 +1,87 @@
+type: object
+properties:
+  id:
+    type: string
+  meta:
+    $ref: './Meta.yaml'
+  implicitRules:
+    type: string
+    format: uri
+  language:
+    $ref: './Code.yaml'
+  extension:
+    $ref: './Extension.yaml'
+  resourceType:
+    type: string
+    enum:
+      - patient
+  identifier:
+    type: array
+    items:
+      $ref: './Identifier.yaml'
+  active:
+    type: boolean
+    example: true
+  name:
+    type: array
+    items:
+      $ref: './HumanName.yaml'
+  telecom:
+    type: array
+    items:
+      $ref: './ContactPoint.yaml'
+  gender:
+    $ref: './Code.yaml'
+  birthDate:
+    type: string
+    format: date
+  deceasedBoolean:
+    type: boolean
+  deceasedDateTime:
+    type: string
+    format: date-time
+  address:
+    type: array
+    items:
+      $ref: './Address.yaml'
+  maritalStatus:
+    type: array
+    items:
+      $ref: './CodeableConcept.yaml'
+  multipleBirthBoolean:
+    type: boolean
+  multipleBirthInteger:
+    type: integer
+  photo:
+    type: array
+    items:
+      $ref: './Attachment.yaml'
+  contact:
+    type: array
+    items:
+      $ref: './Contact.yaml'
+  communication:
+    type: array
+    items:
+      $ref: './Communication.yaml'
+  generalPractitioner:
+    type: array
+    items:
+      $ref: './Reference.yaml'
+  managingOrganization:
+    $ref: './Reference.yaml'
+  link:
+    type: array
+    items:
+      $ref: './Link.yaml'
+example:
+  resourceType: Patient
+  id: '1234567890'
+  active: true
+  name:
+    - use: official
+      family: Smith
+      given:
+        - John
+  gender: male
+  birthDate: '1980-01-01'

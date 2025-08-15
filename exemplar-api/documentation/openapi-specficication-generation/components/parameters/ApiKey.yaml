@@ -1,0 +1,7 @@
+name: x-api-key
+in: header
+description: API key required for calling the endpoints
+schema:
+  type: string
+  example: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4
+example: 5ab6b9f7-1aa9-45bd-add0-fbcf888d68e4

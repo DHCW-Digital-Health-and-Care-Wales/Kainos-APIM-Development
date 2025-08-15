@@ -1,0 +1,27 @@
+title: Lorem Ipsum 
+
+preserve_directory_names: true 
+
+hide: true 
+
+flatten_single_child_sections: true 
+
+ignore: "*.hidden.md" 
+
+nav: 
+  - introduction.md
+  - architecture
+  - Authentication and Authorisation: authentication-and-authorisation
+  - data-sources
+  - Open Design Proposals (ODPs): open-design-proposals
+  - Architecture Decision Records (ADRs): architecture-decision-records
+  - coding-standards
+  - local-development
+  - environments
+  - CICD: ci-cd
+  - observability
+  - documentation-sites
+  - More Resources:
+    - GitHub Repository: https://github.com
+
+append_unmatched: true 

@@ -10,9 +10,7 @@ public sealed class MpiPatientService : IPatientService
     private readonly INhsIdValidator _nhsIdValidator;
     private readonly PatientBuilder _patientBuilder;
     private readonly ILogger<MpiPatientService> _logger;
-
-    private string _hostname;
-    private int _port;
+    private readonly MPIServiceConfiguration _configuration;
 
     public MpiPatientService(
         IConfiguration configuration,
@@ -24,19 +22,7 @@ public sealed class MpiPatientService : IPatientService
         _nhsIdValidator = nhsIdValidator;
         _patientBuilder = personBuilder;
         _logger = logger;
-
-        IConfigurationSection section = configuration.GetSection("MPIServiceConfiguration");
-        if (section is not null)
-        {
-            _hostname = section["Hostname"] ?? "localhost";
-            _port = int.Parse(section["Port"] ?? "9001");
-        }
-        else
-        {
-            _hostname = "localhost";
-            _port = 9001;
-            _logger.LogWarning("MPIServiceConfiguration section not found in configuration. Using default values.");
-        }
+        _configuration = configuration;
     }
 
     public Patient GetByFirstnameSurnameDOB(string firstName, string surname, string dob)
@@ -60,11 +46,22 @@ public sealed class MpiPatientService : IPatientService
 
     private Patient ValidateIdAndReturnPatient(string id)
     {
+		_logger.LogDebug("Validating Patient NHS number: {NhsNumber}", id);
         if (!_nhsIdValidator.IsValid(id))
-            throw new InvalidDataException();
+		{
+			_logger.LogError("Invalid NHS number: {NhsNumber}", id);
+            throw new BadRequestException();
+		}
+		_logger.LogDebug("Patient NHS number: {NhsNumber} is valid", id);
 
-        return _patientBuilder
+		_logger.LogInformation("Calling MPI service to fetch Patient data for Patient NHS number: {NhsNumber}", id);
+
+        Patient patient = _patientBuilder
             .Id(id)
             .Build();
+
+		_logger.LogDebug("Patient data fetched from MPI service for Patient NHS number: {NhsNumber}", id);
+
+		return patient;
     }
 }

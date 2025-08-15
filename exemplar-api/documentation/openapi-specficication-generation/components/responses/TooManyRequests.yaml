@@ -1,0 +1,26 @@
+description: Too Many Requests
+headers:
+  Retry-After:
+    description: Indicates how long to wait before making a new request
+    schema:
+      type: integer
+      format: int32
+content:
+  application/fhir+json:
+    schema:
+      $ref: '../schemas/OperationOutcome.yaml'
+    examples:
+      RateLimitExceeded:
+        summary: Rate limit exceeded
+        value:
+          resourceType: OperationOutcome
+          issue:
+            - severity: error
+              code: too-many-requests
+              details:
+                text: Rate limit exceeded
+              diagnostics: You have exceeded the number of allowed requests per minute.
+              location:
+                - Request
+              expression:
+                - Request
